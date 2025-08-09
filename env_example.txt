@@ -5,8 +5,8 @@ FLASK_ENV=production
 # Database Configuration
 DATABASE_URL=sqlite:///wedding.db
 
-# SendGrid Email Configuration
-SENDGRID_API_KEY=your-sendgrid-api-key-here
+# Resend Email Configuration
+RESEND_API_KEY=re_81rMKsp9_6PmJEhibz5ZtxGZmdB27xEmp
 FROM_EMAIL=noreply@yourwedding.com
 
 # Optional: Custom domain

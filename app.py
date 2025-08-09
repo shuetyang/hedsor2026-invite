@@ -1,11 +1,9 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
 from flask_sqlalchemy import SQLAlchemy
-from flask_mail import Mail, Message
 from datetime import datetime
 import os
 from dotenv import load_dotenv
-import sendgrid
-from sendgrid.helpers.mail import Mail as SendGridMail
+import resend
 
 # Load environment variables
 load_dotenv()
@@ -16,14 +14,9 @@ app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:/
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Email configuration
-app.config['MAIL_SERVER'] = 'smtp.sendgrid.net'
-app.config['MAIL_PORT'] = 587
-app.config['MAIL_USE_TLS'] = True
-app.config['MAIL_USERNAME'] = 'apikey'
-app.config['MAIL_PASSWORD'] = os.environ.get('SENDGRID_API_KEY')
+resend.api_key = os.environ.get('RESEND_API_KEY', 're_81rMKsp9_6PmJEhibz5ZtxGZmdB27xEmp')
 
 db = SQLAlchemy(app)
-mail = Mail(app)
 
 # Database Models
 class Guest(db.Model):
@@ -115,37 +108,50 @@ def admin():
     return render_template('admin.html', guests=guests, stats=stats)
 
 def send_confirmation_email(email, name, rsvp_status):
-    """Send confirmation email using SendGrid"""
+    """Send confirmation email using Resend"""
     try:
-        sg = sendgrid.SendGridAPIClient(api_key=os.environ.get('SENDGRID_API_KEY'))
-        
         # Email content
         subject = "Wedding RSVP Confirmation"
-        content = f"""
-        Dear {name},
-        
-        Thank you for your RSVP to our wedding!
-        
-        Your response: {rsvp_status.title()}
-        
-        We're excited to celebrate with you!
-        
-        Best regards,
-        The Happy Couple
+        html_content = f"""
+        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
+            <h2 style="color: #333; text-align: center;">🎉 Wedding RSVP Confirmation</h2>
+            
+            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
+                <p style="font-size: 16px; color: #333;">Dear <strong>{name}</strong>,</p>
+                
+                <p style="font-size: 16px; color: #333;">Thank you for your RSVP to our wedding!</p>
+                
+                <div style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
+                    <p style="margin: 0; font-size: 14px; color: #666;">Your response:</p>
+                    <p style="margin: 5px 0 0 0; font-size: 18px; font-weight: bold; color: #333;">
+                        {rsvp_status.replace('_', ' ').title()}
+                    </p>
+                </div>
+                
+                <p style="font-size: 16px; color: #333;">We're excited to celebrate with you!</p>
+            </div>
+            
+            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
+                <p style="color: #666; font-size: 14px;">Best regards,</p>
+                <p style="color: #333; font-size: 16px; font-weight: bold;">Sarah & Michael</p>
+                <p style="color: #666; font-size: 12px;">Hedsor House Wedding</p>
+            </div>
+        </div>
         """
         
-        message = SendGridMail(
-            from_email=os.environ.get('FROM_EMAIL', 'noreply@yourwedding.com'),
-            to_emails=email,
-            subject=subject,
-            plain_text_content=content
-        )
+        # Send email using Resend
+        response = resend.Emails.send({
+            "from": "onboarding@resend.dev",  # You can change this to your verified domain
+            "to": email,
+            "subject": subject,
+            "html": html_content
+        })
         
-        response = sg.send(message)
-        print(f"Email sent to {email}: {response.status_code}")
+        print(f"Email sent to {email}: {response}")
         
     except Exception as e:
         print(f"Error sending email: {e}")
+        raise e
 
 # Create database tables
 with app.app_context():
