@@ -1,75 +1,206 @@
 {% extends "base.html" %}
 
-{% block title %}Our Wedding - Hedsor House{% endblock %}
+{% block title %}Sarah & Michael's Wedding{% endblock %}
 
 {% block content %}
-<section class="hero-section">
+<!-- Hero Section -->
+<section id="home" class="hero-section">
     <div class="hero-content fade-in-up">
         <!-- Home Image at the top -->
         <div class="hero-image fade-in-up">
             <img src="{{ url_for('static', filename='images/home.JPG') }}" alt="Sarah & Michael at Hedsor House">
         </div>
-        
         <h1 class="hero-title">Sarah & Michael</h1>
-        <p class="hero-subtitle">Request the honour of your presence</p>
-        <p class="hero-date">Saturday, June 15th, 2024</p>
-        <p class="hero-subtitle">at four o'clock in the afternoon</p>
-        <p class="hero-subtitle" style="font-weight: 400; color: #1a1a1a;">Hedsor House</p>
-        <p class="hero-subtitle">Buckinghamshire, England</p>
+        <p class="hero-subtitle">Request the pleasure of your company</p>
+        <p class="hero-date">Saturday, the 15th of June, 2026</p>
+        <p class="hero-time">at four o'clock in the afternoon</p>
+        <p class="hero-venue">Hedsor House</p>
+        <p class="hero-location">Buckinghamshire, England</p>
         
-        <div style="margin-top: 3rem;">
-            <a href="{{ url_for('rsvp') }}" class="cta-button">
-                RSVP Now
-            </a>
-        </div>
-        
-        <div style="margin-top: 1rem;">
-            <a href="{{ url_for('faq') }}" class="cta-button">
-                Wedding Details
-            </a>
+        <div class="hero-buttons">
+            <a href="#rsvp" class="btn btn-primary smooth-scroll">RSVP</a>
+            <a href="#faq" class="btn btn-secondary smooth-scroll">FAQ</a>
         </div>
     </div>
 </section>
 
-<section class="details-section" style="padding: 5rem 2rem; background: #ffffff;">
-    <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
-        <h2 style="color: #1a1a1a; margin-bottom: 3rem; font-size: 2rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Wedding Details</h2>
+<!-- RSVP Section -->
+<section id="rsvp" class="rsvp-section">
+    <div class="container">
+        <h2 class="section-title">RSVP</h2>
+        <p class="section-subtitle">Please respond by the 1st of May, 2026</p>
         
-        <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
-            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
-                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Date & Time</h3>
-                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Saturday, June 15th, 2024<br>4:00 PM Ceremony<br>6:00 PM Reception</p>
+        <form method="POST" action="{{ url_for('submit_rsvp') }}" class="rsvp-form">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
             </div>
             
-            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
-                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Venue</h3>
-                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Hedsor House<br>Buckinghamshire, England<br>Historic Country Estate</p>
+            <div class="form-group">
+                <label for="email">Email Address *</label>
+                <input type="email" id="email" name="email" required>
             </div>
             
-            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
-                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Reception</h3>
-                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Elegant Dinner & Dancing<br>Open Bar & Canapés<br>6:00 PM - 11:00 PM</p>
+            <div class="form-group">
+                <label for="rsvp_status">Will you attend? *</label>
+                <select id="rsvp_status" name="rsvp_status" required>
+                    <option value="">Please select...</option>
+                    <option value="attending">I will attend with pleasure</option>
+                    <option value="not_attending">I regret that I cannot attend</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="guest_count">Number of Guests</label>
+                <select id="guest_count" name="guest_count">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="dietary_restrictions">Dietary Restrictions</label>
+                <textarea id="dietary_restrictions" name="dietary_restrictions" rows="3" placeholder="Please let us know of any dietary requirements..."></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="message">Message to the Couple</label>
+                <textarea id="message" name="message" rows="4" placeholder="Optional message..."></textarea>
+            </div>
+            
+            <button type="submit" class="btn btn-primary">Submit RSVP</button>
+        </form>
+    </div>
+</section>
+
+<!-- FAQ Section -->
+<section id="faq" class="faq-section">
+    <div class="container">
+        <h2 class="section-title">Frequently Asked Questions</h2>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What is the dress code?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Formal attire is requested. Gentlemen are asked to wear suits or morning dress, and ladies are invited to wear cocktail dresses or formal day wear.</p>
             </div>
         </div>
         
-        <div style="margin-top: 4rem; padding: 3rem; background: #f8f9fa; border: 1px solid #e5e5e5;">
-            <h3 style="color: #1a1a1a; margin-bottom: 2rem; font-size: 1.5rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">About Hedsor House</h3>
-            <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem;">
-                Nestled in the heart of Buckinghamshire, Hedsor House is a magnificent Georgian country estate 
-                surrounded by 100 acres of stunning parkland and gardens. This historic venue provides the perfect 
-                backdrop for our special day, combining timeless elegance with natural beauty.
-            </p>
-            <p style="color: #666; font-size: 1rem; line-height: 1.8;">
-                The ceremony will take place in the grand drawing room, followed by celebrations in the 
-                beautifully appointed reception rooms and gardens.
-            </p>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What time should I arrive?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Please arrive at Hedsor House by 3:30 PM. The ceremony will begin promptly at 4:00 PM.</p>
+            </div>
         </div>
         
-        <div style="margin-top: 4rem;">
-            <p style="color: #666; font-style: italic; font-size: 1.1rem; line-height: 1.8;">
-                "Love is patient, love is kind. It does not envy, it does not boast, it is not proud."
-            </p>
-            <p style="color: #1a1a1a; margin-top: 1rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">- 1 Corinthians 13:4</p>
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Is there parking available?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Yes, complimentary parking is available on the grounds of Hedsor House. Please follow the signs upon arrival.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Can I bring children?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>While we love your little ones, we have chosen to make our wedding an adults-only celebration to allow all guests to relax and enjoy the evening.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>What about accommodation?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>We have arranged special rates at several local hotels. Please contact us for recommendations and booking information.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <div class="faq-question">
+                <h3>Is there a gift registry?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p>Your presence at our wedding is the greatest gift. However, if you wish to give something, we would be grateful for a contribution towards our honeymoon fund.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Admin Section (Hidden by default) -->
+<section id="admin" class="admin-section" style="display: none;">
+    <div class="container">
+        <h2 class="section-title">Admin Panel</h2>
+        <p class="section-subtitle">Guest RSVP Responses</p>
+        
+        <div class="admin-stats">
+            <div class="stat-card">
+                <h3>Total Responses</h3>
+                <p class="stat-number">{{ guests|length }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Attending</h3>
+                <p class="stat-number">{{ guests|selectattr('rsvp_status', 'equalto', 'attending')|list|length }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Not Attending</h3>
+                <p class="stat-number">{{ guests|selectattr('rsvp_status', 'equalto', 'not_attending')|list|length }}</p>
+            </div>
+        </div>
+        
+        <div class="guest-list">
+            <h3>Guest Responses</h3>
+            {% if guests %}
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Guests</th>
+                                <th>Dietary</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for guest in guests %}
+                            <tr>
+                                <td>{{ guest.name }}</td>
+                                <td>{{ guest.email }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.rsvp_status }}">
+                                        {{ 'Attending' if guest.rsvp_status == 'attending' else 'Not Attending' }}
+                                    </span>
+                                </td>
+                                <td>{{ guest.guest_count or '-' }}</td>
+                                <td>{{ guest.dietary_restrictions or '-' }}</td>
+                                <td>{{ guest.message or '-' }}</td>
+                                <td>{{ guest.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <p class="no-responses">No RSVP responses yet.</p>
+            {% endif %}
         </div>
     </div>
 </section>

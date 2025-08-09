@@ -31,7 +31,7 @@ class Guest(db.Model):
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), nullable=False)
     rsvp_status = db.Column(db.String(20), nullable=False)  # 'attending', 'not_attending', 'maybe'
-    plus_one = db.Column(db.String(100))
+    guest_count = db.Column(db.Integer, default=1)
     dietary_restrictions = db.Column(db.Text)
     message = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
@@ -42,15 +42,16 @@ class Guest(db.Model):
 # Routes
 @app.route('/')
 def home():
-    return render_template('index.html')
+    guests = Guest.query.order_by(Guest.created_at.desc()).all()
+    return render_template('index.html', guests=guests)
 
 @app.route('/rsvp')
 def rsvp():
-    return render_template('rsvp.html')
+    return redirect(url_for('home') + '#rsvp')
 
 @app.route('/faq')
 def faq():
-    return render_template('faq.html')
+    return redirect(url_for('home') + '#faq')
 
 @app.route('/submit_rsvp', methods=['POST'])
 def submit_rsvp():
@@ -58,7 +59,7 @@ def submit_rsvp():
         name = request.form.get('name')
         email = request.form.get('email')
         rsvp_status = request.form.get('rsvp_status')
-        plus_one = request.form.get('plus_one', '')
+        guest_count = int(request.form.get('guest_count', 1))
         dietary_restrictions = request.form.get('dietary_restrictions', '')
         message = request.form.get('message', '')
         
@@ -67,7 +68,7 @@ def submit_rsvp():
             name=name,
             email=email,
             rsvp_status=rsvp_status,
-            plus_one=plus_one,
+            guest_count=guest_count,
             dietary_restrictions=dietary_restrictions,
             message=message
         )
@@ -79,11 +80,11 @@ def submit_rsvp():
         send_confirmation_email(email, name, rsvp_status)
         
         flash('Thank you for your RSVP! You will receive a confirmation email shortly.', 'success')
-        return redirect(url_for('rsvp'))
+        return redirect(url_for('home') + '#rsvp')
         
     except Exception as e:
         flash('There was an error submitting your RSVP. Please try again.', 'error')
-        return redirect(url_for('rsvp'))
+        return redirect(url_for('home') + '#rsvp')
 
 @app.route('/admin')
 def admin():

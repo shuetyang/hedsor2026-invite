@@ -38,17 +38,20 @@
     <nav class="navbar">
         <div class="nav-container">
             <div class="nav-logo">
-                <a href="{{ url_for('home') }}">Hedsor House Wedding</a>
+                <a href="#home" class="smooth-scroll">Hedsor House Wedding</a>
             </div>
             <ul class="nav-menu">
                 <li class="nav-item">
-                    <a href="{{ url_for('home') }}" class="nav-link">Home</a>
+                    <a href="#home" class="nav-link smooth-scroll">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('rsvp') }}" class="nav-link">RSVP</a>
+                    <a href="#rsvp" class="nav-link smooth-scroll">RSVP</a>
                 </li>
                 <li class="nav-item">
-                    <a href="{{ url_for('faq') }}" class="nav-link">Details</a>
+                    <a href="#faq" class="nav-link smooth-scroll">FAQ</a>
+                </li>
+                <li class="nav-item">
+                    <a href="#admin" class="nav-link smooth-scroll admin-link">Admin</a>
                 </li>
             </ul>
             <div class="hamburger">
