@@ -1,0 +1,77 @@
+{% extends "base.html" %}
+
+{% block title %}Our Wedding - Hedsor House{% endblock %}
+
+{% block content %}
+<section class="hero-section">
+    <div class="hero-content fade-in-up">
+        <!-- Home Image at the top -->
+        <div class="hero-image fade-in-up">
+            <img src="{{ url_for('static', filename='images/home.JPG') }}" alt="Sarah & Michael at Hedsor House">
+        </div>
+        
+        <h1 class="hero-title">Sarah & Michael</h1>
+        <p class="hero-subtitle">Request the honour of your presence</p>
+        <p class="hero-date">Saturday, June 15th, 2024</p>
+        <p class="hero-subtitle">at four o'clock in the afternoon</p>
+        <p class="hero-subtitle" style="font-weight: 400; color: #1a1a1a;">Hedsor House</p>
+        <p class="hero-subtitle">Buckinghamshire, England</p>
+        
+        <div style="margin-top: 3rem;">
+            <a href="{{ url_for('rsvp') }}" class="cta-button">
+                RSVP Now
+            </a>
+        </div>
+        
+        <div style="margin-top: 1rem;">
+            <a href="{{ url_for('faq') }}" class="cta-button">
+                Wedding Details
+            </a>
+        </div>
+    </div>
+</section>
+
+<section class="details-section" style="padding: 5rem 2rem; background: #ffffff;">
+    <div class="container" style="max-width: 800px; margin: 0 auto; text-align: center;">
+        <h2 style="color: #1a1a1a; margin-bottom: 3rem; font-size: 2rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">Wedding Details</h2>
+        
+        <div class="details-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; margin-top: 3rem;">
+            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
+                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Date & Time</h3>
+                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Saturday, June 15th, 2024<br>4:00 PM Ceremony<br>6:00 PM Reception</p>
+            </div>
+            
+            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
+                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Venue</h3>
+                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Hedsor House<br>Buckinghamshire, England<br>Historic Country Estate</p>
+            </div>
+            
+            <div class="detail-card" style="background: #ffffff; padding: 2rem; border: 1px solid #e5e5e5;">
+                <h3 style="color: #1a1a1a; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 1rem;">Reception</h3>
+                <p style="color: #666; font-size: 1rem; line-height: 1.8;">Elegant Dinner & Dancing<br>Open Bar & Canapés<br>6:00 PM - 11:00 PM</p>
+            </div>
+        </div>
+        
+        <div style="margin-top: 4rem; padding: 3rem; background: #f8f9fa; border: 1px solid #e5e5e5;">
+            <h3 style="color: #1a1a1a; margin-bottom: 2rem; font-size: 1.5rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px;">About Hedsor House</h3>
+            <p style="color: #666; font-size: 1rem; line-height: 1.8; margin-bottom: 1.5rem;">
+                Nestled in the heart of Buckinghamshire, Hedsor House is a magnificent Georgian country estate 
+                surrounded by 100 acres of stunning parkland and gardens. This historic venue provides the perfect 
+                backdrop for our special day, combining timeless elegance with natural beauty.
+            </p>
+            <p style="color: #666; font-size: 1rem; line-height: 1.8;">
+                The ceremony will take place in the grand drawing room, followed by celebrations in the 
+                beautifully appointed reception rooms and gardens.
+            </p>
+        </div>
+        
+        <div style="margin-top: 4rem;">
+            <p style="color: #666; font-style: italic; font-size: 1.1rem; line-height: 1.8;">
+                "Love is patient, love is kind. It does not envy, it does not boast, it is not proud."
+            </p>
+            <p style="color: #1a1a1a; margin-top: 1rem; font-weight: 400; text-transform: uppercase; letter-spacing: 1px; font-size: 0.9rem;">- 1 Corinthians 13:4</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
+

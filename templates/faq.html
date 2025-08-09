@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Wedding Details - Hedsor House{% endblock %}
+
+{% block content %}
+<section class="faq-section">
+    <div class="faq-container fade-in-up">
+        <h1 class="faq-title">Wedding Details & Information</h1>
+        
+        <div class="faq-list">
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-clock"></i> What time should I arrive?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>Please arrive at Hedsor House by 3:30 PM to allow time for seating and getting settled. The ceremony will begin promptly at 4:00 PM in the grand drawing room. Late arrivals may not be admitted during the ceremony.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-map-marker-alt"></i> How do I get to Hedsor House?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>Hedsor House is located in Buckinghamshire, approximately 30 minutes from London. The nearest train station is Taplow (Great Western Railway), and we recommend arranging transportation from there. There is ample free parking available on-site for those driving. Detailed directions will be provided with your invitation.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-tshirt"></i> What is the dress code?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>The dress code is formal attire. For gentlemen: morning suit, lounge suit, or formal dark suit with tie. For ladies: cocktail dress, formal day dress, or smart separates. Please avoid wearing white or ivory to avoid confusion with the bride. Hats are welcome but not required.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-child"></i> Are children welcome?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>While we adore your little ones, we have chosen to make our wedding an adults-only celebration. This allows all guests to relax and enjoy the evening without worrying about childcare. We appreciate your understanding and look forward to celebrating with you!</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-utensils"></i> What about food and drinks?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>We'll be serving a traditional British wedding breakfast with canapés, followed by a three-course dinner. Vegetarian and vegan options will be available. There will be an open bar during the reception serving champagne, wine, beer, and spirits. If you have any dietary restrictions, please let us know in your RSVP.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-camera"></i> Can I take photos?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>We kindly ask that you refrain from taking photos during the ceremony to maintain the solemn atmosphere. During the reception, feel free to take photos and share them! We'll also have a professional photographer capturing all the special moments throughout the day.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-gift"></i> Where are you registered?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>Your presence at our wedding is the greatest gift! However, if you'd like to give something, we have registries at John Lewis and Liberty London. You can also contribute to our honeymoon fund. We're planning to honeymoon in the Scottish Highlands.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-car"></i> Is there parking available?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>Yes! There is plenty of free parking available at Hedsor House. We also recommend carpooling or using ride-sharing services if you plan to enjoy the open bar. The venue is also accessible by taxi from Taplow station.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-umbrella"></i> What if it rains?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>Hedsor House has beautiful indoor spaces that will accommodate all our guests regardless of the weather. The ceremony will take place in the grand drawing room, and the reception will be held in the elegant reception rooms. The gardens are available for photos if the weather permits.</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-clock"></i> When does the reception end?
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>The reception will end at 11:00 PM. We'll have a grand exit celebration in the gardens (weather permitting), and then we'll all head home with wonderful memories of our special day at Hedsor House!</p>
+                </div>
+            </div>
+            
+            <div class="faq-item">
+                <div class="faq-question" onclick="toggleFAQ(this)">
+                    <i class="fas fa-question-circle"></i> I have another question!
+                    <i class="fas fa-chevron-down" style="float: right; transition: transform 0.3s ease;"></i>
+                </div>
+                <div class="faq-answer" style="display: none;">
+                    <p>If you have any other questions about our wedding at Hedsor House, please don't hesitate to reach out to us directly. You can email us at sarahandmichael@email.com or call Sarah at +44 (0) 20 7123 4567 or Michael at +44 (0) 20 7987 6543.</p>
+                </div>
+            </div>
+        </div>
+        
+        <div style="text-align: center; margin-top: 4rem;">
+            <a href="{{ url_for('rsvp') }}" class="cta-button">
+                <i class="fas fa-heart"></i> RSVP Now
+            </a>
+        </div>
+    </div>
+</section>
+
+<script>
+function toggleFAQ(element) {
+    const answer = element.nextElementSibling;
+    const icon = element.querySelector('.fa-chevron-down');
+    
+    if (answer.style.display === 'none' || answer.style.display === '') {
+        answer.style.display = 'block';
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        answer.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
+{% endblock %}

@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}RSVP - Our Wedding{% endblock %}
+
+{% block content %}
+<section class="rsvp-section">
+    <div class="rsvp-container fade-in-up">
+        <h1 class="rsvp-title">RSVP</h1>
+        <p style="text-align: center; color: #6B5B47; margin-bottom: 2rem;">
+            Please respond by May 15th, 2024
+        </p>
+        
+        <form method="POST" action="{{ url_for('submit_rsvp') }}" class="rsvp-form">
+            <div class="form-group">
+                <label for="name" class="form-label">Full Name *</label>
+                <input type="text" id="name" name="name" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email" class="form-label">Email Address *</label>
+                <input type="email" id="email" name="email" class="form-input" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="rsvp_status" class="form-label">Will you attend? *</label>
+                <select id="rsvp_status" name="rsvp_status" class="form-select" required>
+                    <option value="">Please select...</option>
+                    <option value="attending">Happily Accept</option>
+                    <option value="not_attending">Regretfully Decline</option>
+                    <option value="maybe">Maybe (I'll let you know soon)</option>
+                </select>
+            </div>
+            
+            <div class="form-group" id="plus_one_group" style="display: none;">
+                <label for="plus_one" class="form-label">Plus One Name</label>
+                <input type="text" id="plus_one" name="plus_one" class="form-input" placeholder="If you're bringing a guest">
+            </div>
+            
+            <div class="form-group" id="dietary_group" style="display: none;">
+                <label for="dietary_restrictions" class="form-label">Dietary Restrictions</label>
+                <textarea id="dietary_restrictions" name="dietary_restrictions" class="form-textarea" 
+                          placeholder="Please let us know about any dietary restrictions or allergies"></textarea>
+            </div>
+            
+            <div class="form-group">
+                <label for="message" class="form-label">Message to the Couple (Optional)</label>
+                <textarea id="message" name="message" class="form-textarea" 
+                          placeholder="Share your well wishes, memories, or any special requests"></textarea>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-paper-plane"></i> Send RSVP
+            </button>
+        </form>
+        
+        <div style="margin-top: 2rem; text-align: center; color: #6B5B47; font-size: 0.9rem;">
+            <p><i class="fas fa-info-circle"></i> You will receive a confirmation email after submitting your RSVP.</p>
+        </div>
+    </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const rsvpStatus = document.getElementById('rsvp_status');
+    const plusOneGroup = document.getElementById('plus_one_group');
+    const dietaryGroup = document.getElementById('dietary_group');
+    
+    rsvpStatus.addEventListener('change', function() {
+        if (this.value === 'attending') {
+            plusOneGroup.style.display = 'block';
+            dietaryGroup.style.display = 'block';
+        } else {
+            plusOneGroup.style.display = 'none';
+            dietaryGroup.style.display = 'none';
+        }
+    });
+});
+</script>
+{% endblock %}

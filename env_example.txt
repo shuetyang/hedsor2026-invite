@@ -1,0 +1,13 @@
+# Flask Configuration
+SECRET_KEY=your-secret-key-change-this-in-production
+FLASK_ENV=production
+
+# Database Configuration
+DATABASE_URL=sqlite:///wedding.db
+
+# SendGrid Email Configuration
+SENDGRID_API_KEY=your-sendgrid-api-key-here
+FROM_EMAIL=noreply@yourwedding.com
+
+# Optional: Custom domain
+CUSTOM_DOMAIN=yourwedding.tk
