@@ -83,6 +83,74 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // RSVP Form AJAX Submission
+    const rsvpForm = document.getElementById('rsvp-form');
+    if (rsvpForm) {
+        rsvpForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-btn');
+            const formData = new FormData(this);
+            
+            // Show loading state
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+            
+            // Submit form via AJAX
+            fetch('/submit_rsvp', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Show success modal
+                    showModal('success');
+                    // Reset form
+                    rsvpForm.reset();
+                } else {
+                    // Show error modal
+                    showModal('error', data.message || 'There was an error submitting your RSVP.');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showModal('error', 'Network error. Please check your connection and try again.');
+            })
+            .finally(() => {
+                // Reset button state
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            });
+        });
+    }
+    
+    // Modal functions
+    window.showModal = function(type, message = '') {
+        const modal = document.getElementById(type + '-modal');
+        if (modal) {
+            if (type === 'error' && message) {
+                document.getElementById('error-message').textContent = message;
+            }
+            modal.style.display = 'flex';
+        }
+    };
+    
+    window.closeModal = function() {
+        document.querySelectorAll('.modal').forEach(modal => {
+            modal.style.display = 'none';
+        });
+    };
+    
+    // Close modal when clicking outside
+    document.querySelectorAll('.modal').forEach(modal => {
+        modal.addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+    });
+    
     // Form validation enhancements
     const forms = document.querySelectorAll('form');
     forms.forEach(form => {

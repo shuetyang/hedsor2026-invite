@@ -63,6 +63,13 @@ def submit_rsvp():
         dietary_restrictions = request.form.get('dietary_restrictions', '')
         message = request.form.get('message', '')
         
+        # Validate required fields
+        if not name or not email or not rsvp_status:
+            return jsonify({
+                'success': False,
+                'message': 'Please fill in all required fields.'
+            }), 400
+        
         # Create new guest
         guest = Guest(
             name=name,
@@ -76,15 +83,24 @@ def submit_rsvp():
         db.session.add(guest)
         db.session.commit()
         
-        # Send confirmation email
-        send_confirmation_email(email, name, rsvp_status)
+        # Try to send confirmation email (but don't fail if it doesn't work)
+        try:
+            send_confirmation_email(email, name, rsvp_status)
+        except Exception as email_error:
+            print(f"Email sending failed: {email_error}")
+            # Continue anyway - the RSVP was saved successfully
         
-        flash('Thank you for your RSVP! You will receive a confirmation email shortly.', 'success')
-        return redirect(url_for('home') + '#rsvp')
+        return jsonify({
+            'success': True,
+            'message': 'RSVP submitted successfully!'
+        })
         
     except Exception as e:
-        flash('There was an error submitting your RSVP. Please try again.', 'error')
-        return redirect(url_for('home') + '#rsvp')
+        print(f"RSVP submission error: {e}")
+        return jsonify({
+            'success': False,
+            'message': 'There was an error submitting your RSVP. Please try again.'
+        }), 500
 
 @app.route('/admin')
 def admin():

@@ -106,6 +106,8 @@
                         musicStatus.textContent = 'Playing';
                         musicIcon.className = 'fas fa-music';
                         musicOverlay.style.display = 'none';
+                        // Remember that music has been started
+                        localStorage.setItem('musicStarted', 'true');
                         console.log('Music started playing successfully');
                     }).catch(error => {
                         console.log('Autoplay prevented:', error);
@@ -154,8 +156,15 @@
                 }
             });
             
-            // Try to start playing immediately (will likely fail due to browser policy)
-            startMusic();
+            // Check if music has been started before
+            if (localStorage.getItem('musicStarted') === 'true') {
+                musicOverlay.style.display = 'none';
+                // Try to start playing immediately (will likely fail due to browser policy)
+                startMusic();
+            } else {
+                // Try to start playing immediately (will likely fail due to browser policy)
+                startMusic();
+            }
             
             // Handle audio events
             audio.addEventListener('play', function() {
