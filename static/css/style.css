@@ -138,9 +138,7 @@ section {
     background: #ffffff;
 }
 
-.admin-section {
-    background: #f8f9fa;
-}
+
 
 /* Section Titles */
 .section-title {
@@ -308,14 +306,23 @@ section {
     grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 2rem;
     margin-bottom: 3rem;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .stat-card {
-    background: #ffffff;
+    background: #f8f9fa;
     padding: 2rem;
     text-align: center;
     border-radius: 8px;
-    box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    border: 1px solid #e5e5e5;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
 }
 
 .stat-card h3 {
@@ -340,6 +347,8 @@ section {
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
 .admin-table th,
@@ -384,10 +393,7 @@ section {
     padding: 3rem;
 }
 
-/* Hide admin link by default */
-.admin-link {
-    display: none;
-}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {

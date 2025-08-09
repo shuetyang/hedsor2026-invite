@@ -1,120 +1,125 @@
-{% extends "base.html" %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Wedding RSVP Management</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        body {
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+        }
+        .admin-header {
+            background: #ffffff;
+            padding: 2rem;
+            border-bottom: 1px solid #e5e5e5;
+            text-align: center;
+        }
+        .admin-header h1 {
+            color: #1a1a1a;
+            font-size: 2rem;
+            margin: 0;
+            font-weight: 400;
+        }
+        .admin-header p {
+            color: #666;
+            margin: 0.5rem 0 0 0;
+        }
+        .admin-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+        .back-link {
+            display: inline-block;
+            margin-bottom: 2rem;
+            color: #1a1a1a;
+            text-decoration: none;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+        .back-link:hover {
+            color: #666;
+        }
+        .back-link i {
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-header">
+        <h1>Wedding RSVP Admin Panel</h1>
+        <p>Guest Response Management</p>
+    </div>
 
-{% block title %}Admin - RSVP Management{% endblock %}
+    <div class="admin-container">
+        <a href="{{ url_for('home') }}" class="back-link">
+            <i class="fas fa-arrow-left"></i>
+            Back to Wedding Site
+        </a>
 
-{% block content %}
-<section class="admin-section">
-    <div class="admin-container fade-in-up">
-        <h1 class="admin-title">RSVP Management</h1>
-        
-        <!-- Statistics -->
-        <div class="stats-grid">
+        <div class="admin-stats">
             <div class="stat-card">
-                <div class="stat-number">{{ stats.total }}</div>
-                <div class="stat-label">Total Responses</div>
+                <h3>Total Responses</h3>
+                <p class="stat-number">{{ stats.total }}</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{{ stats.attending }}</div>
-                <div class="stat-label">Attending</div>
+                <h3>Attending</h3>
+                <p class="stat-number">{{ stats.attending }}</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{{ stats.not_attending }}</div>
-                <div class="stat-label">Not Attending</div>
+                <h3>Not Attending</h3>
+                <p class="stat-number">{{ stats.not_attending }}</p>
             </div>
             <div class="stat-card">
-                <div class="stat-number">{{ stats.maybe }}</div>
-                <div class="stat-label">Maybe</div>
+                <h3>Maybe</h3>
+                <p class="stat-number">{{ stats.maybe }}</p>
             </div>
         </div>
-        
-        <!-- Guest List -->
-        <div class="guests-table">
-            <div class="table-header">
-                <div style="display: grid; grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr; gap: 1rem;">
-                    <div>Name</div>
-                    <div>Email</div>
-                    <div>Status</div>
-                    <div>Plus One</div>
-                    <div>Dietary</div>
-                    <div>Date</div>
+
+        <div class="guest-list">
+            <h3>Guest Responses</h3>
+            {% if guests %}
+                <div class="table-responsive">
+                    <table class="admin-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Guests</th>
+                                <th>Dietary</th>
+                                <th>Message</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for guest in guests %}
+                            <tr>
+                                <td>{{ guest.name }}</td>
+                                <td>{{ guest.email }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.rsvp_status }}">
+                                        {{ 'Attending' if guest.rsvp_status == 'attending' else 'Not Attending' if guest.rsvp_status == 'not_attending' else 'Maybe' }}
+                                    </span>
+                                </td>
+                                <td>{{ guest.guest_count or '-' }}</td>
+                                <td>{{ guest.dietary_restrictions or '-' }}</td>
+                                <td>{{ guest.message or '-' }}</td>
+                                <td>{{ guest.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
                 </div>
-            </div>
-            
-            {% for guest in guests %}
-            <div class="table-row" data-label="Guest {{ loop.index }}">
-                <div>{{ guest.name }}</div>
-                <div>{{ guest.email }}</div>
-                <div>
-                    {% if guest.rsvp_status == 'attending' %}
-                        <span style="color: #28a745; font-weight: 600;">✓ Attending</span>
-                    {% elif guest.rsvp_status == 'not_attending' %}
-                        <span style="color: #dc3545; font-weight: 600;">✗ Not Attending</span>
-                    {% else %}
-                        <span style="color: #ffc107; font-weight: 600;">? Maybe</span>
-                    {% endif %}
-                </div>
-                <div>{{ guest.plus_one or '-' }}</div>
-                <div>{{ guest.dietary_restrictions or '-' }}</div>
-                <div>{{ guest.created_at.strftime('%m/%d/%Y') }}</div>
-            </div>
-            {% endfor %}
-            
-            {% if not guests %}
-            <div class="table-row" style="text-align: center; padding: 2rem;">
-                <div style="grid-column: 1 / -1; color: #6B5B47;">
-                    <i class="fas fa-inbox" style="font-size: 2rem; margin-bottom: 1rem; opacity: 0.5;"></i>
-                    <p>No RSVPs yet. They will appear here once guests start responding!</p>
-                </div>
-            </div>
+            {% else %}
+                <p class="no-responses">No RSVP responses yet.</p>
             {% endif %}
         </div>
-        
-        <!-- Export Options -->
-        <div style="margin-top: 2rem; text-align: center;">
-            <button onclick="exportToCSV()" class="cta-button" style="margin-right: 1rem;">
-                <i class="fas fa-download"></i> Export to CSV
-            </button>
-            <button onclick="printGuestList()" class="cta-button" style="background: linear-gradient(135deg, #8B7355 0%, #6B5B47 100%);">
-                <i class="fas fa-print"></i> Print List
-            </button>
-        </div>
     </div>
-</section>
-
-<script>
-function exportToCSV() {
-    const guests = {{ guests|tojson }};
-    let csv = 'Name,Email,Status,Plus One,Dietary Restrictions,Message,Date\n';
-    
-    guests.forEach(guest => {
-        const row = [
-            `"${guest.name}"`,
-            `"${guest.email}"`,
-            `"${guest.rsvp_status}"`,
-            `"${guest.plus_one || ''}"`,
-            `"${guest.dietary_restrictions || ''}"`,
-            `"${guest.message || ''}"`,
-            `"${guest.created_at}"`
-        ].join(',');
-        csv += row + '\n';
-    });
-    
-    const blob = new Blob([csv], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = 'wedding_rsvps.csv';
-    a.click();
-    window.URL.revokeObjectURL(url);
-}
-
-function printGuestList() {
-    window.print();
-}
-
-// Auto-refresh every 30 seconds
-setInterval(function() {
-    location.reload();
-}, 30000);
-</script>
-{% endblock %}
+</body>
+</html>

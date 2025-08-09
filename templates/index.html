@@ -142,67 +142,6 @@
     </div>
 </section>
 
-<!-- Admin Section (Hidden by default) -->
-<section id="admin" class="admin-section" style="display: none;">
-    <div class="container">
-        <h2 class="section-title">Admin Panel</h2>
-        <p class="section-subtitle">Guest RSVP Responses</p>
-        
-        <div class="admin-stats">
-            <div class="stat-card">
-                <h3>Total Responses</h3>
-                <p class="stat-number">{{ guests|length }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Attending</h3>
-                <p class="stat-number">{{ guests|selectattr('rsvp_status', 'equalto', 'attending')|list|length }}</p>
-            </div>
-            <div class="stat-card">
-                <h3>Not Attending</h3>
-                <p class="stat-number">{{ guests|selectattr('rsvp_status', 'equalto', 'not_attending')|list|length }}</p>
-            </div>
-        </div>
-        
-        <div class="guest-list">
-            <h3>Guest Responses</h3>
-            {% if guests %}
-                <div class="table-responsive">
-                    <table class="admin-table">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Status</th>
-                                <th>Guests</th>
-                                <th>Dietary</th>
-                                <th>Message</th>
-                                <th>Date</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for guest in guests %}
-                            <tr>
-                                <td>{{ guest.name }}</td>
-                                <td>{{ guest.email }}</td>
-                                <td>
-                                    <span class="status-badge status-{{ guest.rsvp_status }}">
-                                        {{ 'Attending' if guest.rsvp_status == 'attending' else 'Not Attending' }}
-                                    </span>
-                                </td>
-                                <td>{{ guest.guest_count or '-' }}</td>
-                                <td>{{ guest.dietary_restrictions or '-' }}</td>
-                                <td>{{ guest.message or '-' }}</td>
-                                <td>{{ guest.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-            {% else %}
-                <p class="no-responses">No RSVP responses yet.</p>
-            {% endif %}
-        </div>
-    </div>
-</section>
+
 {% endblock %}
 
