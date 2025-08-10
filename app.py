@@ -2,24 +2,24 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
-from dotenv import load_dotenv
 import resend
+from config import config
 
-# Load environment variables
-load_dotenv()
+# Get configuration based on environment
+config_name = os.environ.get('FLASK_ENV', 'development')
+app_config = config[config_name]
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
-if not app.config['SECRET_KEY']:
-    print("Warning: SECRET_KEY not set. Using default for development only.")
-    app.config['SECRET_KEY'] = 'dev-secret-key-change-in-production'
-app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///wedding.db')
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.config.from_object(app_config)
 
 # Email configuration
-resend.api_key = os.environ.get('RESEND_API_KEY')
+resend.api_key = app_config.RESEND_API_KEY
 if not resend.api_key:
     print("Warning: RESEND_API_KEY not set. Email functionality will be disabled.")
+    print("To test email functionality locally:")
+    print("1. Create a .env file in your project root")
+    print("2. Add your Resend API key: RESEND_API_KEY=your_api_key_here")
+    print("3. Get your API key from: https://resend.com/api-keys")
 
 db = SQLAlchemy(app)
 
@@ -145,7 +145,7 @@ def send_confirmation_email(email, name, rsvp_status):
         """
         
         # Send email using Resend
-        from_email = os.environ.get('FROM_EMAIL', 'onboarding@resend.dev')
+        from_email = app_config.FROM_EMAIL
         response = resend.Emails.send({
             "from": from_email,
             "to": email,

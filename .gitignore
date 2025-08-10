@@ -1,8 +1,3 @@
-# Virtual Environment
-venv/
-env/
-ENV/
-
 # Python
 __pycache__/
 *.py[cod]
@@ -24,42 +19,41 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
+MANIFEST
 
-# Flask
-instance/
-.webassets-cache
+# Virtual Environment
+venv/
+env/
+ENV/
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
+instance/
 
 # Environment variables
 .env
 .env.local
-.env.development.local
-.env.test.local
-.env.production.local
+.env.production
 
 # IDE
 .vscode/
 .idea/
 *.swp
 *.swo
-*~
 
 # OS
 .DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
 Thumbs.db
+
+# Large image files (over 1MB) - KEEPING THESE AS THEY'RE NEEDED FOR THE WEBSITE
+# static/images/home.JPG
+# static/images/frontpage.jpg
+# static/images/vintage-frame.jpg
 
 # Logs
 *.log
-logs/
 
 # Temporary files
 *.tmp

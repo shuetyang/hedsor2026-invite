@@ -66,13 +66,29 @@ wedding-invitation/
    pip install -r requirements.txt
    ```
 
-4. **Set up environment variables**
+4. **Set up environment variables for email testing**
+   
+   **Option A: Use the setup script (Recommended)**
+   ```bash
+   python setup_local_env.py
+   # Follow the prompts to enter your Resend API key
+   ```
+   
+   **Option B: Manual setup**
    ```bash
    cp env_example.txt .env
-   # Edit .env with your actual values
+   # Edit .env with your actual values:
+   # - Get your Resend API key from: https://resend.com/api-keys
+   # - Set RESEND_API_KEY=your_api_key_here
    ```
 
-5. **Run the application**
+5. **Test email configuration**
+   ```bash
+   python setup_local_env.py
+   # Choose option 2 to test your configuration
+   ```
+
+6. **Run the application**
    ```bash
    python app.py
    ```
@@ -82,6 +98,33 @@ wedding-invitation/
    - RSVP: http://localhost:5000/rsvp
    - FAQ: http://localhost:5000/faq
    - Admin: http://localhost:5000/admin
+
+## Local Email Testing
+
+To test the email functionality locally:
+
+1. **Get a Resend API Key**
+   - Go to [resend.com](https://resend.com)
+   - Sign up for a free account
+   - Navigate to API Keys section
+   - Create a new API key
+
+2. **Set up your .env file**
+   ```bash
+   python setup_local_env.py
+   # Enter your Resend API key when prompted
+   ```
+
+3. **Test email sending**
+   - Submit an RSVP through the website
+   - Check the console for email sending status
+   - Verify the email was received
+
+4. **Troubleshooting**
+   - If emails aren't sending, check the console output
+   - Verify your API key is correct
+   - Make sure your .env file is in the project root
+   - Test configuration: `python setup_local_env.py` (option 2)
 
 ## Deployment to Render
 
