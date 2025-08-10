@@ -9,12 +9,17 @@ import resend
 load_dotenv()
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY', 'your-secret-key-change-this')
+app.config['SECRET_KEY'] = os.environ.get('SECRET_KEY')
+if not app.config['SECRET_KEY']:
+    print("Warning: SECRET_KEY not set. Using default for development only.")
+    app.config['SECRET_KEY'] = 'dev-secret-key-change-in-production'
 app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL', 'sqlite:///wedding.db')
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 # Email configuration
-resend.api_key = os.environ.get('RESEND_API_KEY', 're_81rMKsp9_6PmJEhibz5ZtxGZmdB27xEmp')
+resend.api_key = os.environ.get('RESEND_API_KEY')
+if not resend.api_key:
+    print("Warning: RESEND_API_KEY not set. Email functionality will be disabled.")
 
 db = SQLAlchemy(app)
 
@@ -140,8 +145,9 @@ def send_confirmation_email(email, name, rsvp_status):
         """
         
         # Send email using Resend
+        from_email = os.environ.get('FROM_EMAIL', 'onboarding@resend.dev')
         response = resend.Emails.send({
-            "from": "onboarding@resend.dev",  # You can change this to your verified domain
+            "from": from_email,
             "to": email,
             "subject": subject,
             "html": html_content
