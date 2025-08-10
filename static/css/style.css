@@ -716,6 +716,30 @@ section {
     background: #f8f9fa;
 }
 
+/* On the Day Section */
+.on-the-day-section {
+    padding: 5rem 2rem;
+    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
+}
+
+.schedule-image-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    margin-top: 3rem;
+    text-align: center;
+}
+
+.schedule-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    display: block;
+    margin: 0 auto;
+}
+
+
+
 .faq-container {
     max-width: 800px;
     margin: 0 auto;
@@ -913,6 +937,14 @@ section {
         text-transform: uppercase;
         letter-spacing: 1px;
         font-size: 0.8rem;
+    }
+    
+    .schedule-image-container {
+        margin: 2rem 1rem;
+    }
+    
+    .schedule-image {
+        width: 100%;
     }
 }
 

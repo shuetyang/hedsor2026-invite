@@ -19,7 +19,24 @@
         
         <div class="hero-buttons">
             <a href="#rsvp" class="btn btn-primary smooth-scroll">RSVP</a>
+            <a href="#on-the-day" class="btn btn-secondary smooth-scroll">On the Day</a>
             <a href="#faq" class="btn btn-secondary smooth-scroll">FAQ</a>
+        </div>
+    </div>
+</section>
+
+<!-- On the Day Section -->
+<section id="on-the-day" class="on-the-day-section">
+    <div class="container">
+        <h2 class="section-title">On the Day</h2>
+        <p class="section-subtitle">Your complete wedding day schedule</p>
+        
+        <div class="schedule-image-container">
+            <img 
+                src="{{ url_for('schedule') }}" 
+                alt="Wedding Day Schedule" 
+                class="schedule-image"
+                title="Wedding Day Schedule">
         </div>
     </div>
 </section>

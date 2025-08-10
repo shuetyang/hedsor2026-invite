@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash, jsonify
+from flask import Flask, render_template, request, redirect, url_for, flash, jsonify, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
@@ -50,6 +50,10 @@ def rsvp():
 @app.route('/faq')
 def faq():
     return redirect(url_for('home') + '#faq')
+
+@app.route('/schedule')
+def schedule():
+    return send_from_directory('materials', 'crystal and yang wedding.png')
 
 @app.route('/submit_rsvp', methods=['POST'])
 def submit_rsvp():
