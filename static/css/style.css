@@ -779,10 +779,19 @@ section {
 }
 
 .faq-answer {
-    padding: 1.5rem;
+    background: #f8f9fa;
+    padding: 0 1.5rem;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
     color: #666;
     line-height: 1.8;
     font-size: 1rem;
+}
+
+.faq-answer.active {
+    padding: 1.5rem;
+    max-height: 200px;
 }
 
 /* Admin Section */
