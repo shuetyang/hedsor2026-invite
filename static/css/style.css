@@ -9,7 +9,7 @@ body {
     font-family: 'Playfair Display', serif;
     line-height: 1.7;
     color: #1a1a1a;
-    background-color: #ffffff;
+    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
     font-size: 16px;
 }
 
@@ -112,7 +112,7 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Main Content */
 .main-content {
-    margin-top: 70px;
+    margin-top: 0;
     min-height: calc(100vh - 140px);
 }
 
@@ -124,19 +124,12 @@ html {
 /* Section Styles */
 section {
     padding: 5rem 2rem;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
 }
 
-.rsvp-section {
-    background: #f8f9fa;
-}
 
-.faq-section {
-    background: #ffffff;
-}
+
+
 
 
 
@@ -549,13 +542,14 @@ section {
 
 /* Home Page */
 .hero-section {
-    background: #ffffff;
+    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     text-align: center;
+    padding: 0;
 }
 
 .hero-content {
@@ -628,7 +622,6 @@ section {
 /* RSVP Form */
 .rsvp-section {
     padding: 5rem 2rem;
-    background: #ffffff;
 }
 
 .rsvp-container {
@@ -713,13 +706,11 @@ section {
 /* FAQ Section */
 .faq-section {
     padding: 5rem 2rem;
-    background: #f8f9fa;
 }
 
 /* On the Day Section */
 .on-the-day-section {
     padding: 5rem 2rem;
-    background: linear-gradient(135deg, #fff5f5 0%, #fef2f2 100%);
 }
 
 .schedule-image-container {
@@ -797,7 +788,6 @@ section {
 /* Admin Section */
 .admin-section {
     padding: 5rem 2rem;
-    background: #ffffff;
 }
 
 .admin-container {
