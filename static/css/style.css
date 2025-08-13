@@ -619,6 +619,114 @@ section {
     transform: translateY(-2px);
 }
 
+/* Countdown Styles */
+.countdown-container {
+    margin: 2rem auto;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    max-width: 450px;
+    width: 80%;
+}
+
+.countdown-label {
+    font-size: 1.2rem;
+    color: #666;
+    margin-bottom: 1.5rem;
+    font-weight: 300;
+    font-style: italic;
+    letter-spacing: 0.5px;
+}
+
+.countdown-timer {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    flex-wrap: nowrap;
+}
+
+.countdown-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 70px;
+}
+
+.countdown-number {
+    font-size: 2.2rem;
+    font-weight: 400;
+    color: #1a1a1a;
+    line-height: 1;
+    margin-bottom: 0.5rem;
+    font-family: 'Playfair Display', serif;
+}
+
+.countdown-label-small {
+    font-size: 0.8rem;
+    color: #666;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    font-weight: 300;
+}
+
+/* Responsive countdown */
+@media (max-width: 768px) {
+    .countdown-container {
+        padding: 1.5rem;
+        margin: 1.5rem auto;
+        width: 95%;
+        max-width: 400px;
+    }
+    
+    .countdown-timer {
+        gap: 1rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+        min-width: 60px;
+        flex: 0 0 auto;
+    }
+    
+    .countdown-number {
+        font-size: 2rem;
+    }
+    
+    .countdown-label-small {
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .countdown-container {
+        width: 98%;
+        max-width: 350px;
+        padding: 1rem;
+    }
+    
+    .countdown-timer {
+        gap: 0.8rem;
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+    
+    .countdown-item {
+        min-width: 50px;
+        flex: 0 0 auto;
+    }
+    
+    .countdown-number {
+        font-size: 1.8rem;
+    }
+    
+    .countdown-label-small {
+        font-size: 0.7rem;
+    }
+}
+
 /* RSVP Form */
 .rsvp-section {
     padding: 5rem 2rem;
@@ -778,6 +886,7 @@ section {
 .travel-options {
     display: flex;
     justify-content: center;
+    align-items: stretch;
     gap: 2rem;
     flex-wrap: wrap;
     max-width: 1000px;
@@ -798,6 +907,7 @@ section {
     border-radius: 8px;
     border: 1px solid var(--color-3);
     transition: all 0.3s ease;
+    align-self: stretch;
 }
 
 .travel-option:hover {
@@ -848,6 +958,28 @@ section {
 
 .venue-link-option {
     cursor: pointer;
+    text-decoration: none;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    padding: 1.5rem;
+    background: rgba(245, 219, 231, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--color-3);
+    transition: all 0.3s ease;
+    align-self: stretch;
+}
+
+.venue-link-option:hover {
+    background: rgba(245, 219, 231, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(88, 44, 58, 0.1);
 }
 
 .venue-link-option:hover .venue-link {
@@ -893,6 +1025,113 @@ section {
     box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
     display: block;
     margin: 0 auto;
+}
+
+/* Dress Code Styles */
+.dress-code-container {
+    max-width: 1000px;
+    margin: 4rem auto 0 auto;
+}
+
+.dress-code-title {
+    text-align: center;
+    color: #1a1a1a;
+    margin-bottom: 2.5rem;
+    font-size: 1.8rem;
+    font-weight: 400;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    font-family: 'Playfair Display', serif;
+}
+
+.dress-code-options {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.dress-code-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    gap: 1rem;
+    flex: 1;
+    min-width: 280px;
+    max-width: 320px;
+    padding: 1.5rem;
+    background: rgba(245, 219, 231, 0.3);
+    border-radius: 8px;
+    border: 1px solid var(--color-3);
+    transition: all 0.3s ease;
+}
+
+.dress-code-option:hover {
+    background: rgba(245, 219, 231, 0.5);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 15px rgba(88, 44, 58, 0.1);
+}
+
+.dress-code-option i {
+    color: var(--color-1);
+    font-size: 1.8rem;
+    margin-bottom: 0.5rem;
+}
+
+.dress-code-info {
+    text-align: center;
+}
+
+.dress-code-info h5 {
+    color: var(--color-1);
+    font-size: 1.1rem;
+    margin: 0 0 0.5rem 0;
+    font-weight: 400;
+    letter-spacing: 0.5px;
+}
+
+.dress-code-info p {
+    color: var(--color-2);
+    margin: 0 0 0.5rem 0;
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.dress-code-note {
+    color: var(--color-1);
+    font-size: 0.9rem;
+    font-weight: 500;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
+    display: inline-block;
+    margin-top: 0.5rem;
+}
+
+/* Responsive dress code */
+@media (max-width: 768px) {
+    .dress-code-container {
+        margin: 3rem auto 0 auto;
+    }
+    
+    .dress-code-options {
+        flex-direction: column;
+        align-items: center;
+        gap: 1.5rem;
+    }
+    
+    .dress-code-option {
+        max-width: 100%;
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .dress-code-title {
+        font-size: 1.6rem;
+        margin-bottom: 2rem;
+    }
 }
 
 

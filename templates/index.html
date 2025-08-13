@@ -17,8 +17,80 @@
         <p class="hero-venue">Hedsor House</p>
         <p class="hero-location">Buckinghamshire, England</p>
         
+        <!-- Countdown Section -->
+        <div class="countdown-container">
+            <p class="countdown-label">Days until our special day</p>
+            <div class="countdown-timer">
+                <div class="countdown-item">
+                    <span class="countdown-number" id="days">0</span>
+                    <span class="countdown-label-small">Days</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="hours">0</span>
+                    <span class="countdown-label-small">Hours</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="minutes">0</span>
+                    <span class="countdown-label-small">Minutes</span>
+                </div>
+                <div class="countdown-item">
+                    <span class="countdown-number" id="seconds">0</span>
+                    <span class="countdown-label-small">Seconds</span>
+                </div>
+            </div>
+        </div>
+        
         <div class="hero-buttons">
             <a href="#rsvp" class="btn btn-primary smooth-scroll">RSVP</a>
+        </div>
+    </div>
+</section>
+
+<!-- On the Day Section -->
+<section id="on-the-day" class="on-the-day-section">
+    <div class="container">
+        <h2 class="section-title">On the Day</h2>
+        <p class="section-subtitle">Your complete wedding day schedule</p>
+        
+        <div class="schedule-image-container">
+            <img 
+                src="{{ url_for('schedule') }}" 
+                alt="Wedding Day Schedule" 
+                class="schedule-image"
+                title="Wedding Day Schedule">
+        </div>
+        
+        <!-- Dress Code Section -->
+        <div class="dress-code-container">
+            <h3 class="dress-code-title">Wedding Dress Code</h3>
+            <div class="dress-code-options">
+                <div class="dress-code-option">
+                    <i class="fas fa-user-tie"></i>
+                    <div class="dress-code-info">
+                        <h5>For Men (Whole day)</h5>
+                        <p>Black Tie</p>
+                        <span class="dress-code-note">Read more in FAQ section</span>
+                    </div>
+                </div>
+                
+                <div class="dress-code-option">
+                    <i class="fas fa-female"></i>
+                    <div class="dress-code-info">
+                        <h5>For Women (Daytime)</h5>
+                        <p>Pastel-coloured long dresses</p>
+                        <span class="dress-code-note">No white or cream</span>
+                    </div>
+                </div>
+                
+                <div class="dress-code-option">
+                    <i class="fas fa-moon"></i>
+                    <div class="dress-code-info">
+                        <h5>For Women (Evening – Optional)</h5>
+                        <p>Dark-coloured dresses</p>
+                        <span class="dress-code-note">Any length</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </section>
@@ -157,34 +229,18 @@
                             <p>Nearest stations: Taplow (3.3 miles),<br>Burnham (4.2 miles), Beaconsfield (5.1 miles)</p>
                         </div>
                     </div>
-                    <div class="travel-option venue-link-option">
+                    <a href="https://www.hedsor.com/contact-us/visit-us" target="_blank" class="travel-option venue-link-option">
                         <i class="fas fa-external-link-alt"></i>
                         <div class="travel-info">
                             <h5>Visit Website</h5>
                             <p>For more information about<br>Hedsor House and directions</p>
-                            <a href="https://www.hedsor.com/contact-us/visit-us" target="_blank" class="venue-link">
+                            <span class="venue-link">
                                 Visit Hedsor House Website
-                            </a>
+                            </span>
                         </div>
-                    </div>
+                    </a>
                 </div>
             </div>
-        </div>
-    </div>
-</section>
-
-<!-- On the Day Section -->
-<section id="on-the-day" class="on-the-day-section">
-    <div class="container">
-        <h2 class="section-title">On the Day</h2>
-        <p class="section-subtitle">Your complete wedding day schedule</p>
-        
-        <div class="schedule-image-container">
-            <img 
-                src="{{ url_for('schedule') }}" 
-                alt="Wedding Day Schedule" 
-                class="schedule-image"
-                title="Wedding Day Schedule">
         </div>
     </div>
 </section>

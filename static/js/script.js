@@ -203,41 +203,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Countdown timer (if wedding date is set)
-    const weddingDate = new Date('2024-06-15T16:00:00');
-    const countdownElement = document.querySelector('.countdown');
+    // Countdown timer for Crystal & Yang's wedding (May 12, 2026 at 2 PM)
+    const weddingDate = new Date('2026-05-12T14:00:00');
+    const daysElement = document.getElementById('days');
+    const hoursElement = document.getElementById('hours');
+    const minutesElement = document.getElementById('minutes');
+    const secondsElement = document.getElementById('seconds');
     
-    if (countdownElement) {
+    if (daysElement && hoursElement && minutesElement && secondsElement) {
         function updateCountdown() {
             const now = new Date().getTime();
             const distance = weddingDate.getTime() - now;
             
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-            const seconds = Math.floor((distance % (1000 * 60)) / 1000);
-            
-            countdownElement.innerHTML = `
-                <div class="countdown-item">
-                    <span class="countdown-number">${days}</span>
-                    <span class="countdown-label">Days</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${hours}</span>
-                    <span class="countdown-label">Hours</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${minutes}</span>
-                    <span class="countdown-label">Minutes</span>
-                </div>
-                <div class="countdown-item">
-                    <span class="countdown-number">${seconds}</span>
-                    <span class="countdown-label">Seconds</span>
-                </div>
-            `;
-            
-            if (distance < 0) {
-                countdownElement.innerHTML = '<div class="countdown-complete">The wedding day has arrived! 🎉</div>';
+            if (distance > 0) {
+                const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+                const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+                const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+                
+                daysElement.textContent = days;
+                hoursElement.textContent = hours.toString().padStart(2, '0');
+                minutesElement.textContent = minutes.toString().padStart(2, '0');
+                secondsElement.textContent = seconds.toString().padStart(2, '0');
+            } else {
+                // Wedding day has passed - count days since
+                const daysSince = Math.floor(Math.abs(distance) / (1000 * 60 * 60 * 24));
+                const hoursSince = Math.floor((Math.abs(distance) % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const minutesSince = Math.floor((Math.abs(distance) % (1000 * 60 * 60)) / (1000 * 60));
+                const secondsSince = Math.floor((Math.abs(distance) % (1000 * 60)) / 1000);
+                
+                daysElement.textContent = daysSince;
+                hoursElement.textContent = hoursSince.toString().padStart(2, '0');
+                minutesElement.textContent = minutesSince.toString().padStart(2, '0');
+                secondsElement.textContent = secondsSince.toString().padStart(2, '0');
+                
+                // Update the countdown label
+                const countdownLabel = document.querySelector('.countdown-label');
+                if (countdownLabel) {
+                    if (daysSince === 0) {
+                        countdownLabel.textContent = '🎉 Today is our special day! 🎉';
+                    } else {
+                        countdownLabel.textContent = `Days since our special day 💕`;
+                    }
+                }
             }
         }
         
@@ -308,36 +316,6 @@ style.textContent = `
         }
     }
     
-    .countdown {
-        display: flex;
-        justify-content: center;
-        gap: 2rem;
-        margin: 2rem 0;
-    }
-    
-    .countdown-item {
-        text-align: center;
-    }
-    
-    .countdown-number {
-        display: block;
-        font-size: 2.5rem;
-        font-weight: 700;
-        color: #D4AF37;
-    }
-    
-    .countdown-label {
-        font-size: 0.9rem;
-        color: #6B5B47;
-        text-transform: uppercase;
-        letter-spacing: 1px;
-    }
-    
-    .countdown-complete {
-        font-size: 1.5rem;
-        color: #D4AF37;
-        font-weight: 700;
-        text-align: center;
-    }
+
 `;
 document.head.appendChild(style);
