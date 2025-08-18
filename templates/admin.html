@@ -48,6 +48,101 @@
         .back-link i {
             margin-right: 0.5rem;
         }
+        
+        .admin-stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 3rem;
+        }
+        
+        .stat-card {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        
+        .stat-card h3 {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 0 0 0.5rem 0;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .stat-number {
+            color: #1a1a1a;
+            font-size: 2rem;
+            font-weight: 400;
+            margin: 0;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        .admin-table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
+        }
+        
+        .admin-table th,
+        .admin-table td {
+            padding: 0.8rem;
+            text-align: left;
+            border-bottom: 1px solid #e5e5e5;
+            font-size: 0.9rem;
+        }
+        
+        .admin-table th {
+            background: #f8f9fa;
+            color: #1a1a1a;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-size: 0.8rem;
+        }
+        
+        .status-badge {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-attending {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-not_attending {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .status-yes {
+            background: #d4edda;
+            color: #155724;
+        }
+        
+        .status-no {
+            background: #f8d7da;
+            color: #721c24;
+        }
+        
+        .guest-names {
+            max-width: 150px;
+        }
+        
+        .guest-names div {
+            margin-bottom: 0.2rem;
+            font-size: 0.8rem;
+        }
     </style>
 </head>
 <body>
@@ -64,20 +159,28 @@
 
         <div class="admin-stats">
             <div class="stat-card">
-                <h3>Total Responses</h3>
-                <p class="stat-number">{{ stats.total }}</p>
+                <h3>Primary Contacts</h3>
+                <p class="stat-number">{{ stats.total_primary_contacts }}</p>
             </div>
             <div class="stat-card">
-                <h3>Attending</h3>
-                <p class="stat-number">{{ stats.attending }}</p>
+                <h3>Total Guests</h3>
+                <p class="stat-number">{{ stats.total_guests }}</p>
             </div>
             <div class="stat-card">
-                <h3>Not Attending</h3>
-                <p class="stat-number">{{ stats.not_attending }}</p>
+                <h3>Wedding Attending</h3>
+                <p class="stat-number">{{ stats.wedding_attending }}</p>
             </div>
             <div class="stat-card">
-                <h3>Maybe</h3>
-                <p class="stat-number">{{ stats.maybe }}</p>
+                <h3>Welcome Lunch</h3>
+                <p class="stat-number">{{ stats.welcome_lunch_attending }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Farewell Lunch</h3>
+                <p class="stat-number">{{ stats.farewell_lunch_attending }}</p>
+            </div>
+            <div class="stat-card">
+                <h3>Need Accommodation</h3>
+                <p class="stat-number">{{ stats.accommodation_needed }}</p>
             </div>
         </div>
 
@@ -88,11 +191,14 @@
                     <table class="admin-table">
                         <thead>
                             <tr>
-                                <th>Name</th>
+                                <th>Primary Contact</th>
                                 <th>Email</th>
-                                <th>Status</th>
-                                <th>Guests</th>
-                                <th>Dietary</th>
+                                <th>Guest Count</th>
+                                <th>Guest Names</th>
+                                <th>Wedding</th>
+                                <th>Welcome Lunch</th>
+                                <th>Farewell Lunch</th>
+                                <th>Accommodation</th>
                                 <th>Message</th>
                                 <th>Date</th>
                             </tr>
@@ -102,13 +208,37 @@
                             <tr>
                                 <td>{{ guest.name }}</td>
                                 <td>{{ guest.email }}</td>
+                                <td>{{ guest.guest_count }}</td>
                                 <td>
-                                    <span class="status-badge status-{{ guest.rsvp_status }}">
-                                        {{ 'Attending' if guest.rsvp_status == 'attending' else 'Not Attending' if guest.rsvp_status == 'not_attending' else 'Maybe' }}
+                                    {% if guest.guest_names %}
+                                        {% set names = guest.guest_names|from_json %}
+                                        {% for name in names %}
+                                            <div>{{ name }}</div>
+                                        {% endfor %}
+                                    {% else %}
+                                        {{ guest.name }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.wedding_attendance }}">
+                                        {{ 'Attending' if guest.wedding_attendance == 'attending' else 'Not Attending' }}
                                     </span>
                                 </td>
-                                <td>{{ guest.guest_count or '-' }}</td>
-                                <td>{{ guest.dietary_restrictions or '-' }}</td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.welcome_lunch }}">
+                                        {{ 'Attending' if guest.welcome_lunch == 'attending' else 'Not Attending' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.farewell_lunch }}">
+                                        {{ 'Attending' if guest.farewell_lunch == 'attending' else 'Not Attending' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="status-badge status-{{ guest.accommodation }}">
+                                        {{ 'Yes' if guest.accommodation == 'yes' else 'No' }}
+                                    </span>
+                                </td>
                                 <td>{{ guest.message or '-' }}</td>
                                 <td>{{ guest.created_at.strftime('%Y-%m-%d %H:%M') }}</td>
                             </tr>

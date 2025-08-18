@@ -135,14 +135,14 @@
                     <div class="celebrate-details">
                         <div class="detail-item">
                             <span class="detail-label">Date & Time:</span>
-                            <span class="detail-value">XXX</span>
+                            <span class="detail-value">Sunday, 10th May 2026 at 12:30 PM</span>
                         </div>
                         <div class="detail-item">
                             <span class="detail-label">Location:</span>
-                            <span class="detail-value">XXX</span>
+                            <span class="detail-value">Soho, Central London</span>
                         </div>
                     </div>
-                    <p class="celebrate-note">We warmly welcome everyone to join us – please let us know by using the RSVP section below to reserve your spot.</p>
+                    <p class="celebrate-note">We warmly welcome all guests to join us for this special gathering. Please indicate your attendance in the RSVP section below.</p>
                 </div>
             </div>
             
@@ -153,8 +153,18 @@
                 </div>
                 <div class="celebrate-info">
                     <h3>Farewell Lunch</h3>
-                    <p>The day after the wedding, in addition to breakfast at Hedsor House, we will also be hosting a Farewell Lunch at XXX.</p>
-                    <p class="celebrate-note">We would love for you to join us if it's convenient for you. Please reserve your spot via the RSVP section.</p>
+                    <p>Following breakfast at Hedsor House, we invite you to join us for a farewell celebration at a local restaurant near the venue.</p>
+                    <div class="celebrate-details">
+                        <div class="detail-item">
+                            <span class="detail-label">Date & Time:</span>
+                            <span class="detail-value">Monday, 13th May 2026 at 12:00 PM</span>
+                        </div>
+                        <div class="detail-item">
+                            <span class="detail-label">Location:</span>
+                            <span class="detail-value">Local restaurant near Hedsor House</span>
+                        </div>
+                    </div>
+                    <p class="celebrate-note">We would be delighted if you could join us for this final celebration. Please confirm your attendance in the RSVP section.</p>
                 </div>
             </div>
         </div>
@@ -168,43 +178,106 @@
         <p class="section-subtitle">Please respond by the 1st of April, 2026</p>
         
         <form id="rsvp-form" class="rsvp-form">
-            <div class="form-group">
-                <label for="name">Full Name *</label>
-                <input type="text" id="name" name="name" required>
+            <!-- Primary Contact Information -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Primary Contact</h3>
+                <div class="form-group">
+                    <label for="name">Full Name *</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email">Email Address *</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="email">Email Address *</label>
-                <input type="email" id="email" name="email" required>
+
+            <!-- Guest Information -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Guest Information</h3>
+                <div class="form-group">
+                    <label for="guest_count">Number of Guests *</label>
+                    <select id="guest_count" name="guest_count" required>
+                        <option value="">Please select...</option>
+                        <option value="1">1 Guest</option>
+                        <option value="2">2 Guests</option>
+                        <option value="3">3 Guests</option>
+                        <option value="4">4 Guests</option>
+                    </select>
+                </div>
+                
+                <div id="guest-names-container">
+                    <div class="guest-name-group" data-guest="1">
+                        <label for="guest_name_1">Guest 1 Name *</label>
+                        <input type="text" id="guest_name_1" name="guest_names[]" required>
+                    </div>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="rsvp_status">Will you attend? *</label>
-                <select id="rsvp_status" name="rsvp_status" required>
-                    <option value="">Please select...</option>
-                    <option value="attending">I will attend with pleasure</option>
-                    <option value="not_attending">I regret that I cannot attend</option>
-                </select>
+
+            <!-- Welcome Lunch -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Welcome Lunch - Sunday, 10th May 2026</h3>
+                <div class="form-group">
+                    <label for="welcome_lunch">Will you attend the Welcome Lunch? *</label>
+                    <select id="welcome_lunch" name="welcome_lunch" required>
+                        <option value="">Please select...</option>
+                        <option value="attending">Yes, we will attend</option>
+                        <option value="not_attending">No, we cannot attend</option>
+                    </select>
+                </div>
+                
+
             </div>
-            
-            <div class="form-group">
-                <label for="guest_count">Number of Guests</label>
-                <select id="guest_count" name="guest_count">
-                    <option value="1">1</option>
-                    <option value="2">2</option>
-                    <option value="3">3</option>
-                    <option value="4">4</option>
-                </select>
+
+            <!-- Wedding Day -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Wedding Day - Tuesday, 12th May 2026</h3>
+                <div class="form-group">
+                    <label for="wedding_attendance">Will you attend the wedding? *</label>
+                    <select id="wedding_attendance" name="wedding_attendance" required>
+                        <option value="">Please select...</option>
+                        <option value="attending">Yes, we will attend with pleasure</option>
+                        <option value="not_attending">We regret that we cannot attend</option>
+                    </select>
+                </div>
+                
+
             </div>
-            
-            <div class="form-group">
-                <label for="dietary_restrictions">Dietary Restrictions</label>
-                <textarea id="dietary_restrictions" name="dietary_restrictions" rows="3" placeholder="Please let us know of any dietary requirements..."></textarea>
+
+            <!-- Accommodation -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Accommodation</h3>
+                <div class="form-group">
+                    <label for="accommodation">Would you like accommodation at Hedsor House? *</label>
+                    <select id="accommodation" name="accommodation" required>
+                        <option value="yes">Yes, we would like accommodation</option>
+                        <option value="no">No, we will arrange our own accommodation</option>
+                    </select>
+                </div>
             </div>
-            
-            <div class="form-group">
-                <label for="message">Message to the Couple</label>
-                <textarea id="message" name="message" rows="4" placeholder="Optional message..."></textarea>
+
+            <!-- Farewell Lunch -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Farewell Lunch - Monday, 13th May 2026</h3>
+                <div class="form-group">
+                    <label for="farewell_lunch">Will you attend the Farewell Lunch? *</label>
+                    <select id="farewell_lunch" name="farewell_lunch" required>
+                        <option value="">Please select...</option>
+                        <option value="attending">Yes, we will attend</option>
+                        <option value="not_attending">No, we cannot attend</option>
+                    </select>
+                </div>
+                
+
+            </div>
+
+            <!-- Additional Information -->
+            <div class="rsvp-section-group">
+                <h3 class="rsvp-section-title">Additional Information</h3>
+                <div class="form-group">
+                    <label for="message">Message to the Couple</label>
+                    <textarea id="message" name="message" rows="4" placeholder="Optional message..."></textarea>
+                </div>
             </div>
             
             <button type="submit" class="btn btn-primary" id="submit-btn">

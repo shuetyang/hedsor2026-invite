@@ -83,6 +83,49 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
+    // Dynamic Guest Name Fields
+    const guestCountSelect = document.getElementById('guest_count');
+    const guestNamesContainer = document.getElementById('guest-names-container');
+    const primaryNameInput = document.getElementById('name');
+    
+    if (guestCountSelect && guestNamesContainer) {
+        guestCountSelect.addEventListener('change', function() {
+            const guestCount = parseInt(this.value);
+            guestNamesContainer.innerHTML = '';
+            
+            for (let i = 1; i <= guestCount; i++) {
+                const guestGroup = document.createElement('div');
+                guestGroup.className = 'guest-name-group';
+                guestGroup.setAttribute('data-guest', i);
+                
+                guestGroup.innerHTML = `
+                    <label for="guest_name_${i}">Guest ${i} Name *</label>
+                    <input type="text" id="guest_name_${i}" name="guest_names[]" required>
+                `;
+                
+                guestNamesContainer.appendChild(guestGroup);
+                
+                // Autofill Guest 1 with primary contact name
+                if (i === 1 && primaryNameInput && primaryNameInput.value.trim()) {
+                    const guest1Input = document.getElementById('guest_name_1');
+                    if (guest1Input) {
+                        guest1Input.value = primaryNameInput.value.trim();
+                    }
+                }
+            }
+        });
+    }
+    
+    // Autofill Guest 1 when primary name is entered
+    if (primaryNameInput) {
+        primaryNameInput.addEventListener('input', function() {
+            const guest1Input = document.getElementById('guest_name_1');
+            if (guest1Input && this.value.trim()) {
+                guest1Input.value = this.value.trim();
+            }
+        });
+    }
+
     // RSVP Form AJAX Submission
     const rsvpForm = document.getElementById('rsvp-form');
     if (rsvpForm) {
