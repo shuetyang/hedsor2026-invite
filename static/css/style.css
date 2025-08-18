@@ -156,7 +156,7 @@ section {
     max-width: 600px;
     margin: 0 auto;
     background: #ffffff;
-    padding: 3rem;
+    padding: 2rem;
     border-radius: 8px;
     box-shadow: 0 2px 15px rgba(0, 0, 0, 0.08);
 }
@@ -895,8 +895,8 @@ section {
 }
 
 .rsvp-section-group {
-    margin-bottom: 2.5rem;
-    padding-bottom: 2rem;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1.5rem;
     border-bottom: 1px solid #f0f0f0;
 }
 
@@ -908,9 +908,9 @@ section {
 
 .rsvp-section-title {
     color: #1a1a1a;
-    font-size: 1.3rem;
+    font-size: 1.2rem;
     font-weight: 400;
-    margin-bottom: 1.5rem;
+    margin-bottom: 1rem;
     letter-spacing: 0.5px;
     font-family: 'Playfair Display', serif;
 }
@@ -926,15 +926,15 @@ section {
 .rsvp-title {
     text-align: center;
     color: #1a1a1a;
-    margin-bottom: 2.5rem;
-    font-size: 2rem;
+    margin-bottom: 2rem;
+    font-size: 1.8rem;
     font-weight: 400;
     letter-spacing: 1px;
     text-transform: uppercase;
 }
 
 .form-group {
-    margin-bottom: 2rem;
+    margin-bottom: 1.5rem;
 }
 
 .form-label {
@@ -951,7 +951,7 @@ section {
 .form-select,
 .form-textarea {
     width: 100%;
-    padding: 0.8rem 1rem;
+    padding: 0.6rem 0.8rem;
     border: 1px solid #e5e5e5;
     border-radius: 0;
     font-size: 1rem;
@@ -971,7 +971,7 @@ section {
 
 .form-textarea {
     resize: vertical;
-    min-height: 100px;
+    min-height: 80px;
 }
 
 .submit-btn {
