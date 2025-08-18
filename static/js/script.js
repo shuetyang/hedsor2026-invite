@@ -116,11 +116,14 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
     
-    // Autofill Guest 1 when primary name is entered
+    // Autofill Guest 1 when primary name is entered (only if guest count is selected)
     if (primaryNameInput) {
         primaryNameInput.addEventListener('input', function() {
             const guest1Input = document.getElementById('guest_name_1');
-            if (guest1Input && this.value.trim()) {
+            const guestCount = guestCountSelect ? parseInt(guestCountSelect.value) : 0;
+            
+            // Only autofill if guest count is selected and Guest 1 field exists
+            if (guest1Input && this.value.trim() && guestCount > 0) {
                 guest1Input.value = this.value.trim();
             }
         });
