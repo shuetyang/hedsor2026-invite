@@ -83,64 +83,110 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Dynamic Guest Name Fields
-    const guestCountSelect = document.getElementById('guest_count');
-    const guestNamesContainer = document.getElementById('guest-names-container');
-    const primaryNameInput = document.getElementById('name');
-    
-    if (guestCountSelect && guestNamesContainer) {
-        guestCountSelect.addEventListener('change', function() {
-            const guestCount = parseInt(this.value);
-            guestNamesContainer.innerHTML = '';
-            
-            for (let i = 1; i <= guestCount; i++) {
-                const guestGroup = document.createElement('div');
-                guestGroup.className = 'guest-name-group';
-                guestGroup.setAttribute('data-guest', i);
-                
-                guestGroup.innerHTML = `
-                    <label for="guest_name_${i}">Guest ${i} Name *</label>
-                    <input type="text" id="guest_name_${i}" name="guest_names[]" required>
-                `;
-                
-                guestNamesContainer.appendChild(guestGroup);
-                
-                // Autofill Guest 1 with primary contact name
-                if (i === 1 && primaryNameInput && primaryNameInput.value.trim()) {
-                    const guest1Input = document.getElementById('guest_name_1');
-                    if (guest1Input) {
-                        guest1Input.value = primaryNameInput.value.trim();
-                    }
+    // Multi-step RSVP Form
+    const form = document.getElementById('rsvp-form');
+    const steps = document.querySelectorAll('.form-step');
+    const prevBtn = document.getElementById('prev-btn');
+    const nextBtn = document.getElementById('next-btn');
+    const submitBtn = document.getElementById('submit-btn');
+    const confirmation = document.getElementById('confirmation');
+    const guestCount = document.getElementById('guest-count');
+    const nameFields = document.getElementById('name-fields');
+    const largeGroupNote = document.getElementById('large-group-note');
+    let currentStep = 0;
+
+    if (form && steps.length > 0) {
+        // Update name fields based on guest count
+        guestCount.addEventListener('change', () => {
+            const count = guestCount.value;
+            nameFields.innerHTML = ''; // Clear existing fields
+
+            if (count === '6+') {
+                largeGroupNote.style.display = 'block';
+                const textarea = document.createElement('textarea');
+                textarea.name = 'guest_names[]';
+                textarea.placeholder = 'List all names, e.g., John Doe, Jane Doe';
+                textarea.required = true;
+                textarea.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; min-height: 100px; margin-bottom: 10px;';
+                nameFields.appendChild(textarea);
+            } else {
+                largeGroupNote.style.display = 'none';
+                const numFields = parseInt(count) || 1;
+                for (let i = 0; i < numFields; i++) {
+                    const input = document.createElement('input');
+                    input.type = 'text';
+                    input.name = 'guest_names[]';
+                    input.placeholder = 'e.g., John Doe';
+                    input.required = true;
+                    input.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;';
+                    nameFields.appendChild(input);
                 }
             }
         });
-    }
-    
-    // Autofill Guest 1 when primary name is entered (only if guest count is selected)
-    if (primaryNameInput) {
-        primaryNameInput.addEventListener('input', function() {
-            const guest1Input = document.getElementById('guest_name_1');
-            const guestCount = guestCountSelect ? parseInt(guestCountSelect.value) : 0;
-            
-            // Only autofill if guest count is selected and Guest 1 field exists
-            if (guest1Input && this.value.trim() && guestCount > 0) {
-                guest1Input.value = this.value.trim();
+
+        // Show current step
+        function showStep(step) {
+            steps.forEach((s, index) => {
+                s.style.display = index === step ? 'block' : 'none';
+            });
+            prevBtn.style.display = step === 0 ? 'none' : 'inline-block';
+            nextBtn.style.display = step === steps.length - 1 ? 'none' : 'inline-block';
+            submitBtn.style.display = step === steps.length - 1 ? 'inline-block' : 'none';
+        }
+
+        // Initial step
+        showStep(currentStep);
+
+        // Next button
+        nextBtn.addEventListener('click', () => {
+            if (currentStep < steps.length - 1) {
+                currentStep++;
+                showStep(currentStep);
+            }
+        });
+
+        // Previous button
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 0) {
+                currentStep--;
+                showStep(currentStep);
+            }
+        });
+
+        // Button hover effects
+        [nextBtn, submitBtn].forEach(btn => {
+            if (btn) {
+                btn.addEventListener('mouseover', () => btn.style.background = '#2B4A5A');
+                btn.addEventListener('mouseout', () => btn.style.background = '#1A2E35');
             }
         });
     }
 
     // RSVP Form AJAX Submission
-    const rsvpForm = document.getElementById('rsvp-form');
-    if (rsvpForm) {
-        rsvpForm.addEventListener('submit', function(e) {
+    if (form) {
+        form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            const submitBtn = document.getElementById('submit-btn');
+            // Process form data for checkboxes
             const formData = new FormData(this);
             
+            // Handle checkbox values - set to 'not_attending' if not checked
+            const checkboxFields = ['wedding_attendance', 'welcome_lunch', 'farewell_lunch', 'accommodation'];
+            checkboxFields.forEach(field => {
+                if (!formData.has(field)) {
+                    formData.set(field, 'not_attending');
+                }
+            });
+            
+            // Set accommodation to 'no' if not checked
+            if (!formData.has('accommodation')) {
+                formData.set('accommodation', 'no');
+            }
+            
             // Show loading state
-            submitBtn.classList.add('loading');
+            submitBtn.style.background = '#666';
             submitBtn.disabled = true;
+            submitBtn.textContent = 'Submitting...';
             
             // Submit form via AJAX
             fetch('/submit_rsvp', {
@@ -150,23 +196,23 @@ document.addEventListener('DOMContentLoaded', function() {
             .then(response => response.json())
             .then(data => {
                 if (data.success) {
-                    // Show success modal
-                    showModal('success');
-                    // Reset form
-                    rsvpForm.reset();
+                    // Show confirmation
+                    form.style.display = 'none';
+                    confirmation.style.display = 'block';
                 } else {
-                    // Show error modal
-                    showModal('error', data.message || 'There was an error submitting your RSVP.');
+                    // Show error
+                    alert(data.message || 'There was an error submitting your RSVP. Please try again.');
+                    submitBtn.style.background = '#1A2E35';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit RSVP';
                 }
             })
             .catch(error => {
                 console.error('Error:', error);
-                showModal('error', 'Network error. Please check your connection and try again.');
-            })
-            .finally(() => {
-                // Reset button state
-                submitBtn.classList.remove('loading');
+                alert('Network error. Please check your connection and try again.');
+                submitBtn.style.background = '#1A2E35';
                 submitBtn.disabled = false;
+                submitBtn.textContent = 'Submit RSVP';
             });
         });
     }

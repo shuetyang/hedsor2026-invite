@@ -172,121 +172,157 @@
 </section>
 
 <!-- RSVP Section -->
-<section id="rsvp" class="rsvp-section">
-    <div class="container">
-        <h2 class="section-title">RSVP</h2>
-        <p class="section-subtitle">Please respond by the 1st of April, 2026</p>
+<section id="rsvp" style="background: #FFF7F7; padding: 60px 20px; text-align: center;">
+  <div style="max-width: 600px; margin: 0 auto;">
+    <h2 style="font-family: 'Playfair Display', serif; font-size: 36px; color: #1A2E35; margin-bottom: 20px;">
+      RSVP
+    </h2>
+    <p style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #4A4A4A; margin-bottom: 30px;">
+      We're thrilled to share our day with you! Please respond by <strong>April 1, 2026</strong>.
+    </p>
+
+    <form id="rsvp-form" method="POST" action="{{ url_for('submit_rsvp') }}" style="background: #FFFFFF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <!-- Step 1: Guest Count and Names -->
+      <div class="form-step" id="step-1">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+          How many guests in your party?
+        </label>
+        <select id="guest-count" name="guest_count" required style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
+          <option value="" disabled selected>Select number of guests</option>
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+          <option value="4">4</option>
+          <option value="5">5</option>
+          <option value="6+">6 or more</option>
+        </select>
+
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+          Primary Contact Name
+        </label>
+        <input type="text" name="name" placeholder="e.g., John Doe" required
+               style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
+
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+          Guest Name(s)
+        </label>
+        <div id="name-fields">
+          <input type="text" name="guest_names[]" placeholder="e.g., John Doe" required
+                 style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;">
+        </div>
+        <p id="large-group-note" style="display: none; font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-bottom: 20px;">
+          For 6 or more guests, please list all names or contact us directly.
+        </p>
+
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+          Email for Confirmation
+        </label>
+        <input type="email" name="email" placeholder="Your email" required
+               style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
+      </div>
+
+      <!-- Step 2: Event Attendance -->
+      <div class="form-step" id="step-2" style="display: none;">
+        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 20px; color: #1A2E35; margin-bottom: 20px;">
+          Please confirm your attendance
+        </h3>
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+            Wedding Day, May 12, 2026, 2:00 PM, Hedsor House
+          </label>
+          <div style="margin-left: 20px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
+              <input type="radio" name="wedding_attendance" value="attending" required style="margin-right: 5px;">
+              Attending
+            </label>
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
+              <input type="radio" name="wedding_attendance" value="not_attending" required style="margin-right: 5px;">
+              Not Attending
+            </label>
+          </div>
+        </div>
         
-        <form id="rsvp-form" class="rsvp-form">
-            <!-- Primary Contact Information -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Primary Contact</h3>
-                <div class="form-group">
-                    <label for="name">Full Name *</label>
-                    <input type="text" id="name" name="name" required>
-                </div>
-                
-                <div class="form-group">
-                    <label for="email">Email Address *</label>
-                    <input type="email" id="email" name="email" required>
-                </div>
-            </div>
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+            Welcome Lunch, May 10, 2026, 12:30 PM, Soho
+          </label>
+          <div style="margin-left: 20px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
+              <input type="radio" name="welcome_lunch" value="attending" required style="margin-right: 5px;">
+              Attending
+            </label>
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
+              <input type="radio" name="welcome_lunch" value="not_attending" required style="margin-right: 5px;">
+              Not Attending
+            </label>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+            Farewell Lunch, May 13, 2026, 12:00 PM, near Hedsor House
+            <span style="font-size: 12px; color: #4A4A4A;">(Location details to follow)</span>
+          </label>
+          <div style="margin-left: 20px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
+              <input type="radio" name="farewell_lunch" value="attending" required style="margin-right: 5px;">
+              Attending
+            </label>
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
+              <input type="radio" name="farewell_lunch" value="not_attending" required style="margin-right: 5px;">
+              Not Attending
+            </label>
+          </div>
+        </div>
+        
+        <div style="margin-bottom: 20px; text-align: left;">
+          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+            Accommodation at Hedsor House
+          </label>
+          <div style="margin-left: 20px;">
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
+              <input type="radio" name="accommodation" value="yes" required style="margin-right: 5px;">
+              Yes
+            </label>
+            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
+              <input type="radio" name="accommodation" value="no" required style="margin-right: 5px;">
+              No
+            </label>
+          </div>
+        </div>
+      </div>
 
-            <!-- Guest Information -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Guest Information</h3>
-                <div class="form-group">
-                    <label for="guest_count">Number of Guests *</label>
-                    <select id="guest_count" name="guest_count" required>
-                        <option value="">Please select...</option>
-                        <option value="1">1 Guest</option>
-                        <option value="2">2 Guests</option>
-                        <option value="3">3 Guests</option>
-                        <option value="4">4 Guests</option>
-                    </select>
-                </div>
-                
-                <div id="guest-names-container">
-                    <div class="guest-name-group" data-guest="1">
-                        <label for="guest_name_1">Guest 1 Name *</label>
-                        <input type="text" id="guest_name_1" name="guest_names[]" required>
-                    </div>
-                </div>
-            </div>
+      <!-- Step 3: Optional Message -->
+      <div class="form-step" id="step-3" style="display: none;">
+        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+          A Note to Crystal & Yang (Optional)
+        </label>
+        <textarea name="message" placeholder="We can't wait to celebrate with you! Share a special message or memory."
+                  style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; min-height: 100px; margin-bottom: 20px;"></textarea>
+      </div>
 
-            <!-- Welcome Lunch -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Welcome Lunch - Sunday, 10th May 2026</h3>
-                <div class="form-group">
-                    <label for="welcome_lunch">Will you attend the Welcome Lunch? *</label>
-                    <select id="welcome_lunch" name="welcome_lunch" required>
-                        <option value="">Please select...</option>
-                        <option value="attending">Yes, we will attend</option>
-                        <option value="not_attending">No, we cannot attend</option>
-                    </select>
-                </div>
-                
+      <!-- Navigation Buttons -->
+      <div style="display: flex; justify-content: space-between; margin-top: 20px;">
+        <button type="button" id="prev-btn" style="display: none; padding: 12px 24px; font-family: 'Montserrat', sans-serif; font-size: 16px; background: #D3D3D3; color: #1A2E35; border: none; border-radius: 8px; cursor: pointer;">
+          Previous
+        </button>
+        <button type="button" id="next-btn" style="padding: 12px 24px; font-family: 'Montserrat', sans-serif; font-size: 16px; background: #1A2E35; color: #FFFFFF; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+          Next
+        </button>
+        <button type="submit" id="submit-btn" style="display: none; padding: 12px 24px; font-family: 'Montserrat', sans-serif; font-size: 16px; background: #1A2E35; color: #FFFFFF; border: none; border-radius: 8px; cursor: pointer; transition: background 0.3s;">
+          Submit RSVP
+        </button>
+      </div>
+    </form>
 
-            </div>
-
-            <!-- Wedding Day -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Wedding Day - Tuesday, 12th May 2026</h3>
-                <div class="form-group">
-                    <label for="wedding_attendance">Will you attend the wedding? *</label>
-                    <select id="wedding_attendance" name="wedding_attendance" required>
-                        <option value="">Please select...</option>
-                        <option value="attending">Yes, we will attend with pleasure</option>
-                        <option value="not_attending">We regret that we cannot attend</option>
-                    </select>
-                </div>
-                
-
-            </div>
-
-            <!-- Accommodation -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Accommodation</h3>
-                <div class="form-group">
-                    <label for="accommodation">Would you like accommodation at Hedsor House? *</label>
-                    <select id="accommodation" name="accommodation" required>
-                        <option value="yes">Yes, we would like accommodation</option>
-                        <option value="no">No, we will arrange our own accommodation</option>
-                    </select>
-                </div>
-            </div>
-
-            <!-- Farewell Lunch -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Farewell Lunch - Monday, 13th May 2026</h3>
-                <div class="form-group">
-                    <label for="farewell_lunch">Will you attend the Farewell Lunch? *</label>
-                    <select id="farewell_lunch" name="farewell_lunch" required>
-                        <option value="">Please select...</option>
-                        <option value="attending">Yes, we will attend</option>
-                        <option value="not_attending">No, we cannot attend</option>
-                    </select>
-                </div>
-                
-
-            </div>
-
-            <!-- Additional Information -->
-            <div class="rsvp-section-group">
-                <h3 class="rsvp-section-title">Additional Information</h3>
-                <div class="form-group">
-                    <label for="message">Message to the Couple</label>
-                    <textarea id="message" name="message" rows="4" placeholder="Optional message..."></textarea>
-                </div>
-            </div>
-            
-            <button type="submit" class="btn btn-primary" id="submit-btn">
-                <span class="btn-text">Submit RSVP</span>
-                <span class="btn-loading" style="display: none;">
-                    <i class="fas fa-spinner fa-spin"></i> Submitting...
-                </span>
-            </button>
-        </form>
+    <!-- Confirmation Message -->
+    <div id="confirmation" style="display: none; margin-top: 20px;">
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1A2E35;">
+        Thank you for your RSVP! We're excited to celebrate with you.
+      </p>
+    </div>
+  </div>
+</section>
         
         <!-- Success Modal -->
         <div id="success-modal" class="modal" style="display: none;">

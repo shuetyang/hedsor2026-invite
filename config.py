@@ -16,8 +16,8 @@ class Config:
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
     # Email Configuration
-    RESEND_API_KEY = os.environ.get('RESEND_API_KEY')
-    FROM_EMAIL = os.environ.get('FROM_EMAIL', 'onboarding@resend.dev')
+    BREVO_API_KEY = os.environ.get('BREVO_API_KEY')
+    FROM_EMAIL = os.environ.get('FROM_EMAIL', 'noreply@yourdomain.com')
     
     # Optional: Custom domain
     CUSTOM_DOMAIN = os.environ.get('CUSTOM_DOMAIN')

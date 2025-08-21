@@ -2,7 +2,6 @@ from flask import Flask, render_template, request, redirect, url_for, flash, jso
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
 import os
-import resend
 from config import config
 
 # Get configuration based on environment
@@ -22,13 +21,12 @@ def from_json(value):
         return []
 
 # Email configuration
-resend.api_key = app_config.RESEND_API_KEY
-if not resend.api_key:
-    print("Warning: RESEND_API_KEY not set. Email functionality will be disabled.")
+if not app_config.BREVO_API_KEY:
+    print("Warning: BREVO_API_KEY not set. Email functionality will be disabled.")
     print("To test email functionality locally:")
     print("1. Create a .env file in your project root")
-    print("2. Add your Resend API key: RESEND_API_KEY=your_api_key_here")
-    print("3. Get your API key from: https://resend.com/api-keys")
+    print("2. Add your Brevo API key: BREVO_API_KEY=your_api_key_here")
+    print("3. Get your API key from: https://app.brevo.com/settings/keys/api")
 
 db = SQLAlchemy(app)
 
@@ -140,16 +138,31 @@ def submit_rsvp():
         db.session.commit()
         
         # Send confirmation email
+        email_sent = False
+        email_error = None
         try:
-            send_confirmation_email(email, name, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch)
+            if app_config.BREVO_API_KEY:
+                send_confirmation_email(email, name, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch)
+                email_sent = True
+                print(f"Confirmation email sent successfully to {email}")
+            else:
+                print("Warning: BREVO_API_KEY not configured. Email not sent.")
+                email_error = "Email service not configured"
         except Exception as email_error:
             print(f"Email sending failed: {email_error}")
             # Continue anyway - the RSVP was saved successfully
         
-        return jsonify({
+        response_data = {
             'success': True,
             'message': 'RSVP submitted successfully!'
-        })
+        }
+        
+        if email_sent:
+            response_data['message'] += ' A confirmation email has been sent to your email address.'
+        elif email_error:
+            response_data['message'] += f' (Note: Email notification failed: {email_error})'
+        
+        return jsonify(response_data)
         
     except Exception as e:
         print(f"RSVP submission error: {e}")
@@ -189,8 +202,22 @@ def admin():
     return render_template('admin.html', guests=guests, stats=stats)
 
 def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_attendance, accommodation, farewell_lunch):
-    """Send confirmation email using Resend"""
+    """Send confirmation email using Brevo"""
     try:
+        import requests
+        
+        # Validate email configuration
+        api_key = app_config.BREVO_API_KEY
+        if not api_key:
+            raise ValueError("Brevo API key not configured")
+        
+        if not app_config.FROM_EMAIL:
+            raise ValueError("FROM_EMAIL not configured")
+        
+        # Validate email format
+        if not email or '@' not in email:
+            raise ValueError("Invalid email address")
+        
         # Format guest names
         guest_names_text = ", ".join(guest_names) if len(guest_names) > 1 else guest_names[0]
         
@@ -225,19 +252,39 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
         </div>
         """
         
-        # Send email using Resend
-        from_email = app_config.FROM_EMAIL
-        response = resend.Emails.send({
-            "from": from_email,
-            "to": email,
-            "subject": subject,
-            "html": html_content
-        })
+        # Send email using Brevo API
+        url = "https://api.brevo.com/v3/smtp/email"
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "api-key": api_key
+        }
         
-        print(f"Email sent to {email}: {response}")
+        payload = {
+            "sender": {
+                "name": "Crystal & Yang Wedding",
+                "email": app_config.FROM_EMAIL
+            },
+            "to": [
+                {
+                    "email": email,
+                    "name": name
+                }
+            ],
+            "subject": subject,
+            "htmlContent": html_content
+        }
+        
+        response = requests.post(url, headers=headers, json=payload)
+        
+        if response.status_code == 201:
+            print(f"Email sent successfully to {email}")
+            return response.json()
+        else:
+            raise Exception(f"Brevo API error: {response.status_code} - {response.text}")
         
     except Exception as e:
-        print(f"Error sending email: {e}")
+        print(f"Error sending email to {email}: {e}")
         raise e
 
 # Create database tables
