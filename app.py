@@ -115,10 +115,11 @@ def submit_rsvp():
             }), 400
         
         # Validate guest names match guest count
+        # Note: guest_names_list now includes the primary contact name
         if len(guest_names_list) != guest_count:
             return jsonify({
                 'success': False,
-                'message': f'Please provide names for all {guest_count} guest(s)'
+                'message': f'Please provide names for all {guest_count} guest(s). You provided {len(guest_names_list)} names.'
             }), 400
         
         # Create new guest

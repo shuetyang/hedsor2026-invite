@@ -193,8 +193,6 @@
           <option value="2">2</option>
           <option value="3">3</option>
           <option value="4">4</option>
-          <option value="5">5</option>
-          <option value="6+">6 or more</option>
         </select>
 
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
@@ -204,15 +202,13 @@
                style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
 
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-          Guest Name(s)
+          Additional Guest Name(s)
         </label>
         <div id="name-fields">
-          <input type="text" name="guest_names[]" placeholder="e.g., John Doe" required
-                 style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;">
+          <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin-bottom: 10px; font-style: italic;">
+            Primary contact name will be automatically included. Add additional guests below.
+          </p>
         </div>
-        <p id="large-group-note" style="display: none; font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-bottom: 20px;">
-          For 6 or more guests, please list all names or contact us directly.
-        </p>
 
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
           Email for Confirmation
@@ -226,68 +222,85 @@
         <h3 style="font-family: 'Montserrat', sans-serif; font-size: 20px; color: #1A2E35; margin-bottom: 20px;">
           Please confirm your attendance
         </h3>
-        <div style="margin-bottom: 20px; text-align: left;">
-          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-            Wedding Day, May 12, 2026, 2:00 PM, Hedsor House
-          </label>
-          <div style="margin-left: 20px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
-              <input type="radio" name="wedding_attendance" value="attending" required style="margin-right: 5px;">
-              Attending
-            </label>
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
-              <input type="radio" name="wedding_attendance" value="not_attending" required style="margin-right: 5px;">
-              Not Attending
-            </label>
+        
+        <!-- Wedding Day -->
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
+                Wedding Day
+              </h4>
+              <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin: 0;">
+                May 12, 2026, 2:00 PM, Hedsor House
+              </p>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="wedding-toggle" name="wedding_attendance" value="attending" required style="display: none;">
+              <label for="wedding-toggle" class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
         
-        <div style="margin-bottom: 20px; text-align: left;">
-          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-            Welcome Lunch, May 10, 2026, 12:30 PM, Soho
-          </label>
-          <div style="margin-left: 20px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
-              <input type="radio" name="welcome_lunch" value="attending" required style="margin-right: 5px;">
-              Attending
-            </label>
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
-              <input type="radio" name="welcome_lunch" value="not_attending" required style="margin-right: 5px;">
-              Not Attending
-            </label>
+        <!-- Welcome Lunch -->
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
+                Welcome Lunch
+              </h4>
+              <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin: 0;">
+                May 10, 2026, 12:30 PM, Soho
+              </p>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="welcome-toggle" name="welcome_lunch" value="attending" required style="display: none;">
+              <label for="welcome-toggle" class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
         
-        <div style="margin-bottom: 20px; text-align: left;">
-          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-            Farewell Lunch, May 13, 2026, 12:00 PM, near Hedsor House
-            <span style="font-size: 12px; color: #4A4A4A;">(Location details to follow)</span>
-          </label>
-          <div style="margin-left: 20px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
-              <input type="radio" name="farewell_lunch" value="attending" required style="margin-right: 5px;">
-              Attending
-            </label>
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
-              <input type="radio" name="farewell_lunch" value="not_attending" required style="margin-right: 5px;">
-              Not Attending
-            </label>
+        <!-- Farewell Lunch -->
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
+                Farewell Lunch
+              </h4>
+              <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin: 0;">
+                May 13, 2026, 12:00 PM, near Hedsor House
+                <span style="font-size: 12px; color: #999;">(Location details to follow)</span>
+              </p>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="farewell-toggle" name="farewell_lunch" value="attending" required style="display: none;">
+              <label for="farewell-toggle" class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
         
-        <div style="margin-bottom: 20px; text-align: left;">
-          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-            Accommodation at Hedsor House
-          </label>
-          <div style="margin-left: 20px;">
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A; margin-right: 15px;">
-              <input type="radio" name="accommodation" value="yes" required style="margin-right: 5px;">
-              Yes
-            </label>
-            <label style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #4A4A4A;">
-              <input type="radio" name="accommodation" value="no" required style="margin-right: 5px;">
-              No
-            </label>
+        <!-- Accommodation -->
+        <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+            <div>
+              <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
+                Accommodation at Hedsor House
+              </h4>
+              <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin: 0;">
+                We are delighted to provide accommodation for our guests
+              </p>
+            </div>
+            <div class="toggle-switch">
+              <input type="checkbox" id="accommodation-toggle" name="accommodation" value="yes" checked required style="display: none;">
+              <label for="accommodation-toggle" class="toggle-label">
+                <span class="toggle-slider"></span>
+              </label>
+            </div>
           </div>
         </div>
       </div>
@@ -316,9 +329,16 @@
     </form>
 
     <!-- Confirmation Message -->
-    <div id="confirmation" style="display: none; margin-top: 20px;">
-      <p style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #1A2E35;">
-        Thank you for your RSVP! We're excited to celebrate with you.
+    <div id="confirmation" style="display: none; margin-top: 20px; text-align: center; padding: 40px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+      <div style="font-size: 48px; margin-bottom: 20px;">🎉</div>
+      <h3 style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #1A2E35; margin-bottom: 15px;">
+        RSVP Submitted Successfully!
+      </h3>
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #6B5B47; margin-bottom: 10px;">
+        Thank you for your RSVP! You will receive a confirmation email shortly.
+      </p>
+      <p style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #4A4A4A;">
+        We look forward to celebrating with you!
       </p>
     </div>
   </div>

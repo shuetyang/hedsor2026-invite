@@ -101,26 +101,22 @@ document.addEventListener('DOMContentLoaded', function() {
             const count = guestCount.value;
             nameFields.innerHTML = ''; // Clear existing fields
 
-            if (count === '6+') {
-                largeGroupNote.style.display = 'block';
-                const textarea = document.createElement('textarea');
-                textarea.name = 'guest_names[]';
-                textarea.placeholder = 'List all names, e.g., John Doe, Jane Doe';
-                textarea.required = true;
-                textarea.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; min-height: 100px; margin-bottom: 10px;';
-                nameFields.appendChild(textarea);
-            } else {
-                largeGroupNote.style.display = 'none';
-                const numFields = parseInt(count) || 1;
-                for (let i = 0; i < numFields; i++) {
-                    const input = document.createElement('input');
-                    input.type = 'text';
-                    input.name = 'guest_names[]';
-                    input.placeholder = 'e.g., John Doe';
-                    input.required = true;
-                    input.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;';
-                    nameFields.appendChild(input);
-                }
+            // Add explanatory text
+            const explanation = document.createElement('p');
+            explanation.style.cssText = 'font-family: "Montserrat", sans-serif; font-size: 14px; color: #6B5B47; margin-bottom: 10px; font-style: italic;';
+            explanation.textContent = 'Primary contact name will be automatically included. Add additional guests below.';
+            nameFields.appendChild(explanation);
+
+            const numFields = parseInt(count) || 1;
+            // Only create fields for additional guests (skip the first one as it's the primary contact)
+            for (let i = 1; i < numFields; i++) {
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'guest_names[]';
+                input.placeholder = `Additional guest ${i} name`;
+                input.required = true;
+                input.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;';
+                nameFields.appendChild(input);
             }
         });
 
@@ -167,21 +163,34 @@ document.addEventListener('DOMContentLoaded', function() {
         form.addEventListener('submit', function(e) {
             e.preventDefault();
             
-            // Process form data for checkboxes
+            // Process form data for toggle switches
             const formData = new FormData(this);
             
-            // Handle checkbox values - set to 'not_attending' if not checked
-            const checkboxFields = ['wedding_attendance', 'welcome_lunch', 'farewell_lunch', 'accommodation'];
-            checkboxFields.forEach(field => {
+            // Handle toggle switch values - set to 'not_attending' if not checked
+            const toggleFields = ['wedding_attendance', 'welcome_lunch', 'farewell_lunch'];
+            toggleFields.forEach(field => {
                 if (!formData.has(field)) {
                     formData.set(field, 'not_attending');
                 }
             });
             
-            // Set accommodation to 'no' if not checked
+            // Handle accommodation toggle - default to 'yes' if checked, 'no' if not
             if (!formData.has('accommodation')) {
                 formData.set('accommodation', 'no');
             }
+            
+            // Add primary contact name to guest names array
+            const primaryName = formData.get('name');
+            const existingGuestNames = formData.getAll('guest_names[]');
+            const allGuestNames = [primaryName, ...existingGuestNames];
+            
+            // Clear existing guest_names and add all names
+            formData.delete('guest_names[]');
+            allGuestNames.forEach(name => {
+                if (name && name.trim()) {
+                    formData.append('guest_names[]', name.trim());
+                }
+            });
             
             // Show loading state
             submitBtn.style.background = '#666';
@@ -193,15 +202,47 @@ document.addEventListener('DOMContentLoaded', function() {
                 method: 'POST',
                 body: formData
             })
-            .then(response => response.json())
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
             .then(data => {
                 if (data.success) {
-                    // Show confirmation
+                    // Hide the form immediately after successful submission
                     form.style.display = 'none';
-                    confirmation.style.display = 'block';
+                    
+                    // Show success modal or confirmation message
+                    const modal = document.getElementById('success-modal');
+                    if (modal) {
+                        modal.style.display = 'flex';
+                    } else {
+                        // Fallback: show confirmation message
+                        const confirmation = document.getElementById('confirmation');
+                        if (confirmation) {
+                            confirmation.style.display = 'block';
+                        }
+                    }
+                    
+                    // Reset button state
+                    submitBtn.style.background = '#1A2E35';
+                    submitBtn.disabled = false;
+                    submitBtn.textContent = 'Submit RSVP';
                 } else {
-                    // Show error
-                    alert(data.message || 'There was an error submitting your RSVP. Please try again.');
+                    // Show error modal or alert
+                    const modal = document.getElementById('error-modal');
+                    if (modal) {
+                        const errorMessage = document.getElementById('error-message');
+                        if (errorMessage) {
+                            errorMessage.textContent = data.message || 'There was an error submitting your RSVP. Please try again.';
+                        }
+                        modal.style.display = 'flex';
+                    } else {
+                        // Fallback: show alert
+                        alert(data.message || 'There was an error submitting your RSVP. Please try again.');
+                    }
+                    // Reset button state
                     submitBtn.style.background = '#1A2E35';
                     submitBtn.disabled = false;
                     submitBtn.textContent = 'Submit RSVP';
@@ -209,7 +250,19 @@ document.addEventListener('DOMContentLoaded', function() {
             })
             .catch(error => {
                 console.error('Error:', error);
-                alert('Network error. Please check your connection and try again.');
+                // Show error modal or alert
+                const modal = document.getElementById('error-modal');
+                if (modal) {
+                    const errorMessage = document.getElementById('error-message');
+                    if (errorMessage) {
+                        errorMessage.textContent = 'Network error. Please check your connection and try again.';
+                    }
+                    modal.style.display = 'flex';
+                } else {
+                    // Fallback: show alert
+                    alert('Network error. Please check your connection and try again.');
+                }
+                // Reset button state
                 submitBtn.style.background = '#1A2E35';
                 submitBtn.disabled = false;
                 submitBtn.textContent = 'Submit RSVP';
@@ -222,7 +275,10 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById(type + '-modal');
         if (modal) {
             if (type === 'error' && message) {
-                document.getElementById('error-message').textContent = message;
+                const errorMessage = document.getElementById('error-message');
+                if (errorMessage) {
+                    errorMessage.textContent = message;
+                }
             }
             modal.style.display = 'flex';
         }
@@ -232,6 +288,14 @@ document.addEventListener('DOMContentLoaded', function() {
         document.querySelectorAll('.modal').forEach(modal => {
             modal.style.display = 'none';
         });
+        
+        // Reset form state if there was an error
+        const submitBtn = document.getElementById('submit-btn');
+        if (submitBtn) {
+            submitBtn.style.background = '#1A2E35';
+            submitBtn.disabled = false;
+            submitBtn.textContent = 'Submit RSVP';
+        }
     };
     
     // Close modal when clicking outside

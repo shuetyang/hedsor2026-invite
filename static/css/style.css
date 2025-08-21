@@ -1615,3 +1615,107 @@ section {
 .fade-in-up {
     animation: fadeInUp 0.6s ease;
 }
+
+/* Toggle Switch Styles */
+.toggle-switch {
+    position: relative;
+    display: inline-block;
+}
+
+.toggle-label {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 30px;
+    background-color: #ccc;
+    border-radius: 30px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.toggle-slider {
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    width: 24px;
+    height: 24px;
+    background-color: white;
+    border-radius: 50%;
+    transition: transform 0.3s ease;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.toggle-label:hover {
+    background-color: #b3b3b3;
+}
+
+input[type="checkbox"]:checked + .toggle-label {
+    background-color: #1A2E35;
+}
+
+input[type="checkbox"]:checked + .toggle-label .toggle-slider {
+    transform: translateX(30px);
+}
+
+input[type="checkbox"]:focus + .toggle-label {
+    box-shadow: 0 0 0 3px rgba(26, 46, 53, 0.2);
+}
+
+/* Toggle Switch Animation */
+.toggle-slider::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 8px;
+    height: 8px;
+    background-color: #1A2E35;
+    border-radius: 50%;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+input[type="checkbox"]:checked + .toggle-label .toggle-slider::before {
+    opacity: 1;
+    background-color: white;
+}
+
+/* Responsive Toggle Switch */
+@media (max-width: 768px) {
+    .toggle-label {
+        width: 50px;
+        height: 26px;
+    }
+    
+    .toggle-slider {
+        width: 20px;
+        height: 20px;
+        top: 3px;
+        left: 3px;
+    }
+    
+    input[type="checkbox"]:checked + .toggle-label .toggle-slider {
+        transform: translateX(24px);
+    }
+    
+    /* Improve form layout on mobile */
+    .form-step {
+        padding: 15px !important;
+    }
+    
+    /* Make event cards stack better on mobile */
+    .form-step > div {
+        margin-bottom: 20px !important;
+    }
+    
+    /* Improve text readability on mobile */
+    .form-step h4 {
+        font-size: 15px !important;
+    }
+    
+    .form-step p {
+        font-size: 13px !important;
+    }
+}
