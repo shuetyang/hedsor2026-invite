@@ -94,7 +94,12 @@ def submit_rsvp():
         accommodation = request.form.get('accommodation')
         farewell_lunch = request.form.get('farewell_lunch')
         
-
+        # Debug: Print received values
+        print(f"Debug - Received form data:")
+        print(f"  welcome_lunch: '{welcome_lunch}'")
+        print(f"  wedding_attendance: '{wedding_attendance}'")
+        print(f"  accommodation: '{accommodation}'")
+        print(f"  farewell_lunch: '{farewell_lunch}'")
         
         # Validate required fields
         required_fields = {

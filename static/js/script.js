@@ -96,6 +96,13 @@ document.addEventListener('DOMContentLoaded', function() {
     let currentStep = 0;
 
     if (form && steps.length > 0) {
+        // Set accommodation toggle to checked by default
+        const accommodationToggle = document.getElementById('accommodation-toggle');
+        if (accommodationToggle) {
+            accommodationToggle.checked = true;
+            console.log('Accommodation toggle set to checked:', accommodationToggle.checked);
+        }
+        
         // Update name fields based on guest count
         guestCount.addEventListener('change', () => {
             const count = guestCount.value;
