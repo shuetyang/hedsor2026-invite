@@ -173,7 +173,7 @@
 
 <!-- RSVP Section -->
 <section id="rsvp" style="background: #FFF7F7; padding: 60px 20px; text-align: center;">
-  <div style="max-width: 600px; margin: 0 auto;">
+  <div style="max-width: 1200px; margin: 0 auto; padding: 0 2rem;">
     <h2 style="font-family: 'Playfair Display', serif; font-size: 36px; color: #1A2E35; margin-bottom: 20px;">
       RSVP
     </h2>
@@ -181,7 +181,14 @@
       We're thrilled to share our day with you! Please respond by <strong>April 1, 2026</strong>.
     </p>
 
-    <form id="rsvp-form" method="POST" action="{{ url_for('submit_rsvp') }}" style="background: #FFFFFF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+    <!-- Wedding Photo -->
+    <div style="text-align: center; margin-bottom: 30px;">
+      <img src="{{ url_for('static', filename='images/DSC01297 copy.JPG') }}" 
+           alt="Crystal & Yang Wedding Photo" 
+           style="max-width: 1200px; width: 100%; height: auto; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
+    </div>
+
+    <form id="rsvp-form" method="POST" action="{{ url_for('submit_rsvp') }}" style="background: #FFFFFF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 1200px; margin: 0 auto;">
       <!-- Step 1: Guest Count and Names -->
       <div class="form-step" id="step-1">
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
