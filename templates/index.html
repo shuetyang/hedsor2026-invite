@@ -54,7 +54,7 @@
         
         <div class="schedule-image-container">
             <img 
-                src="{{ url_for('schedule') }}" 
+                src="{{ url_for('static', filename='images/crystal and yang wedding-2.png') }}" 
                 alt="Wedding Day Schedule" 
                 class="schedule-image"
                 title="Wedding Day Schedule">
@@ -460,27 +460,27 @@
         <h2 class="section-title">Frequently Asked Questions</h2>
         
         <div class="faq-item">
-            <div class="faq-question">
-                <h3>What is the dress code?</h3>
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>What is the men's dress code?</h3>
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="faq-answer">
-                <p>Formal attire is requested. Gentlemen are asked to wear suits or morning dress, and ladies are invited to wear cocktail dresses or formal day wear.</p>
+                <p>Black or midnight blue jacket and trousers, white dress shirt, black bow tie, and black leather shoes. Optional: cummerbund or waistcoat, cufflinks, and pocket square.</p>
             </div>
         </div>
         
         <div class="faq-item">
-            <div class="faq-question">
+            <div class="faq-question" onclick="toggleFAQ(this)">
                 <h3>What time should I arrive?</h3>
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="faq-answer">
-                <p>Please arrive at Hedsor House by 1:30 PM. The ceremony will begin promptly at 2:00 PM.</p>
+                <p>Please arrive at 2:00 PM. This is the earliest time you can check in, though you're welcome to arrive slightly earlier. The welcome toast begins at 2:30 PM.</p>
             </div>
         </div>
         
         <div class="faq-item">
-            <div class="faq-question">
+            <div class="faq-question" onclick="toggleFAQ(this)">
                 <h3>Is there parking available?</h3>
                 <i class="fas fa-chevron-down"></i>
             </div>
@@ -489,38 +489,39 @@
             </div>
         </div>
         
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Can I bring children?</h3>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                <p>While we love your little ones, we have chosen to make our wedding an adults-only celebration to allow all guests to relax and enjoy the evening.</p>
-            </div>
-        </div>
+
         
         <div class="faq-item">
-            <div class="faq-question">
-                <h3>What about accommodation?</h3>
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>How to get to Hedsor House?</h3>
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="faq-answer">
-                <p>We have arranged special rates at several local hotels. Please contact us for recommendations and booking information.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item">
-            <div class="faq-question">
-                <h3>Is there a gift registry?</h3>
-                <i class="fas fa-chevron-down"></i>
-            </div>
-            <div class="faq-answer">
-                <p>Your presence at our wedding is the greatest gift. However, if you wish to give something, we would be grateful for a contribution towards our honeymoon fund.</p>
+                <p><strong>By Car:</strong><br>
+                From London Centre: ~45 minutes<br>
+                From Heathrow: ~25 minutes<br><br>
+                <strong>Public Transport:</strong><br>
+                Elizabeth Line (from Heathrow or London Centre) → Taplow station, then a short cab ride<br><br>
+                Most recommended way: cab or by car, but if you're arriving via public transport, please get in touch and we will arrange pick up from Taplow.</p>
             </div>
         </div>
     </div>
 </section>
 
+<script>
+function toggleFAQ(element) {
+    const answer = element.nextElementSibling;
+    const icon = element.querySelector('.fa-chevron-down');
+    
+    if (answer.style.display === 'none' || answer.style.display === '') {
+        answer.style.display = 'block';
+        icon.style.transform = 'rotate(180deg)';
+    } else {
+        answer.style.display = 'none';
+        icon.style.transform = 'rotate(0deg)';
+    }
+}
+</script>
 
 {% endblock %}
 
