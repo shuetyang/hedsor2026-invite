@@ -230,33 +230,129 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
         # Email content
         subject = "Crystal & Yang's Wedding - RSVP Confirmation"
         html_content = f"""
-        <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
-            <h2 style="color: #333; text-align: center;">🎉 Wedding RSVP Confirmation</h2>
-            
-            <div style="background: #f9f9f9; padding: 20px; border-radius: 8px; margin: 20px 0;">
-                <p style="font-size: 16px; color: #333;">Dear <strong>{name}</strong>,</p>
-                
-                <p style="font-size: 16px; color: #333;">Thank you for your RSVP to our wedding celebration!</p>
-                
-                <div style="background: white; padding: 15px; border-radius: 5px; margin: 15px 0;">
-                    <p style="margin: 0; font-size: 14px; color: #666; font-weight: bold;">Your RSVP Details:</p>
-                    <p style="margin: 5px 0 0 0; font-size: 16px; color: #333;"><strong>Guests:</strong> {guest_names_text}</p>
-                    <p style="margin: 5px 0 0 0; font-size: 16px; color: #333;"><strong>Welcome Lunch (May 10):</strong> {welcome_lunch.replace('_', ' ').title()}</p>
-                    <p style="margin: 5px 0 0 0; font-size: 16px; color: #333;"><strong>Wedding Day (May 12):</strong> {wedding_attendance.replace('_', ' ').title()}</p>
-                    <p style="margin: 5px 0 0 0; font-size: 16px; color: #333;"><strong>Accommodation:</strong> {accommodation.title()}</p>
-                    <p style="margin: 5px 0 0 0; font-size: 16px; color: #333;"><strong>Farewell Lunch (May 13):</strong> {farewell_lunch.replace('_', ' ').title()}</p>
-                </div>
-                
-                <p style="font-size: 16px; color: #333;">We're excited to celebrate with you!</p>
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#faf7f2;padding:32px 0;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;background:#ffffff;border-radius:14px;border:1px solid #e9e4da;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+        <tr>
+          <td style="padding:32px 36px 16px 36px;border-bottom:1px solid #efeae0;">
+            <div style="font-family: 'Didot', 'Bodoni MT', Georgia, 'Times New Roman', serif; font-size:28px; line-height:1.2; color:#2b2b2b; text-align:center; letter-spacing:0.5px;">
+              Crystal &amp; Yang
             </div>
-            
-            <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #eee;">
-                <p style="color: #666; font-size: 14px;">Best regards,</p>
-                <p style="color: #333; font-size: 16px; font-weight: bold;">Crystal & Yang</p>
-                <p style="color: #666; font-size: 12px;">Hedsor House Wedding - May 12, 2026</p>
+            <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#8a7e6a; text-align:center; margin-top:6px;">
+              Wedding RSVP Confirmation
             </div>
-        </div>
-        """
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 36px 0 36px;">
+            <p style="margin:0 0 10px 0; font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b;">
+              Dear <strong>{name}</strong>,
+            </p>
+            <p style="margin:0 0 18px 0; font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b;">
+              Thank you for your RSVP — we can’t wait to celebrate together!
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 36px 0 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f3;border:1px solid #efeae0;border-radius:10px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Your RSVP Details
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    <div><strong>Guests</strong>: {guest_names_text}</div>
+                    <div><strong>Welcome Lunch (May 10)</strong>: {welcome_lunch.replace('_', ' ').title()}</div>
+                    <div><strong>Wedding Day (May 12)</strong>: {wedding_attendance.replace('_', ' ').title()}</div>
+                    <div><strong>Accommodation</strong>: {accommodation.title()}</div>
+                    <div><strong>Farewell Lunch (May 13)</strong>: {farewell_lunch.replace('_', ' ').title()}</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:22px 36px 0 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="border-collapse:separate;">
+              <tr>
+                <td style="vertical-align:top; padding:0 0 16px 0;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Arrival & Check-In
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    Please arrive <em>camera-ready</em> (dressed up & make-up done). Check-in opens from <strong>2:00 PM</strong>, then join us for a welcome toast at <strong>2:30 PM</strong>.
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align:top; padding:0 0 16px 0;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Dress Code
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    Black tie for men; pastel long dresses for daytime for women (no white/cream); optional darker looks in the evening.
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align:top; padding:0 0 6px 0;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Venue
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    Hedsor House, Buckinghamshire.  
+                    For full details &amp; travel tips, please visit our
+                    <a href="https://crystal-yang-wedding.up.railway.app" target="_blank" style="color:#b8a16a; text-decoration:none; font-weight:bold;">
+                      wedding website
+                    </a>.
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:22px 36px 28px 36px;">
+            <div style="height:1px;background:#efeae0;margin:10px 0 18px 0;"></div>
+            <p style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b;">
+              If anything changes, just 
+              <a href="https://wa.me/14415244044" target="_blank" style="color:#b8a16a; font-weight:bold; text-decoration:none;">
+                WhatsApp us
+              </a> — do not reply to this email!
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 36px 30px 36px; text-align:center;">
+            <div style="font-family: Arial, Helvetica, sans-serif; color:#8a7e6a; font-size:13px;">With love,</div>
+            <div style="font-family: 'Didot','Bodoni MT',Georgia,'Times New Roman',serif; font-size:18px; color:#2b2b2b; margin-top:2px;">
+              Crystal &amp; Yang
+            </div>
+            <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; margin-top:4px;">
+              Hedsor House — May 12, 2026
+            </div>
+            <div style="margin-top:10px;">
+              <a href="https://crystal-yang-wedding.up.railway.app" target="_blank" style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#b8a16a; text-decoration:none;">
+                Visit our wedding website ↗
+              </a>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+"""
+
+
         
         # Send email using Brevo API
         url = "https://api.brevo.com/v3/smtp/email"

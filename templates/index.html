@@ -119,12 +119,12 @@
                     <p>We are delighted to provide accommodation for our guests at the wedding venue – Hedsor House.</p>
                     <div class="celebrate-details">
                         <div class="detail-item">
-                            <span class="detail-label">Check-in:</span>
-                            <span class="detail-value">From 2:00 PM on the wedding day</span>
+                            <span class="detail-label">Check In:</span>
+                            <span class="detail-value">Tuesday, 12th May 2026 at 2:00 PM on the wedding day</span>
                         </div>
                         <div class="detail-item">
-                            <span class="detail-label">Check-out:</span>
-                            <span class="detail-value">By 10:00 AM the following morning</span>
+                            <span class="detail-label">Check Out:</span>
+                            <span class="detail-value">Wednesday, 13th May 2026 by 10:00 AM</span>
                         </div>
                     </div>
                     <p class="celebrate-note">A post-wedding breakfast will be served the next morning – we warmly invite everyone to join us.</p>
@@ -233,14 +233,14 @@
 
       <!-- Step 2: Event Attendance -->
       <div class="form-step" id="step-2" style="display: none;">
-        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 20px; color: #1A2E35; margin-bottom: 20px;">
+        <h3 style="font-family: 'Montserrat', sans-serif; font-size: 20px; color: #1A2E35; margin-bottom: 20px; text-align: center;">
           Please confirm your attendance
         </h3>
         
         <!-- Wedding Day -->
         <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1;">
               <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
                 Wedding Day
               </h4>
@@ -248,7 +248,7 @@
                 May 12, 2026, 2:00 PM, Hedsor House
               </p>
             </div>
-            <div class="toggle-switch">
+            <div class="toggle-switch" style="margin-left: 20px;">
               <input type="checkbox" id="wedding-toggle" name="wedding_attendance" value="attending" style="display: none;">
               <label for="wedding-toggle" class="toggle-label">
                 <span class="toggle-slider"></span>
@@ -259,16 +259,17 @@
         
         <!-- Welcome Lunch -->
         <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1;">
               <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
                 Welcome Lunch
               </h4>
               <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin: 0;">
                 May 10, 2026, 12:30 PM, Soho
+                <span style="font-size: 12px; color: #999;">(Location details to follow)</span>
               </p>
             </div>
-            <div class="toggle-switch">
+            <div class="toggle-switch" style="margin-left: 20px;">
               <input type="checkbox" id="welcome-toggle" name="welcome_lunch" value="attending" style="display: none;">
               <label for="welcome-toggle" class="toggle-label">
                 <span class="toggle-slider"></span>
@@ -279,8 +280,8 @@
         
         <!-- Farewell Lunch -->
         <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1;">
               <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
                 Farewell Lunch
               </h4>
@@ -289,7 +290,7 @@
                 <span style="font-size: 12px; color: #999;">(Location details to follow)</span>
               </p>
             </div>
-            <div class="toggle-switch">
+            <div class="toggle-switch" style="margin-left: 20px;">
               <input type="checkbox" id="farewell-toggle" name="farewell_lunch" value="attending" style="display: none;">
               <label for="farewell-toggle" class="toggle-label">
                 <span class="toggle-slider"></span>
@@ -300,8 +301,8 @@
         
         <!-- Accommodation -->
         <div style="margin-bottom: 30px; padding: 20px; border: 1px solid #E8E8E8; border-radius: 10px; background: #FAFAFA;">
-          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
-            <div>
+          <div style="display: flex; justify-content: space-between; align-items: center;">
+            <div style="flex: 1;">
               <h4 style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; margin: 0 0 5px 0;">
                 Accommodation at Hedsor House
               </h4>
@@ -309,7 +310,7 @@
                 We are delighted to provide accommodation for our guests
               </p>
             </div>
-            <div class="toggle-switch">
+            <div class="toggle-switch" style="margin-left: 20px;">
               <input type="checkbox" id="accommodation-toggle" name="accommodation" value="yes" style="display: none;">
               <label for="accommodation-toggle" class="toggle-label">
                 <span class="toggle-slider"></span>
@@ -345,12 +346,15 @@
     <!-- Confirmation Message -->
     <div id="confirmation" style="display: none; margin-top: 20px; text-align: center; padding: 40px; background: #FFFFFF; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
       <div style="font-size: 48px; margin-bottom: 20px;">🎉</div>
-      <h3 style="font-family: 'Montserrat', sans-serif; font-size: 24px; color: #1A2E35; margin-bottom: 15px;">
+      <h3 style="font-family: 'Montserrat', sans-serif; font-size: 25px; color: #1A2E35; margin-bottom: 15px;">
         RSVP Submitted Successfully!
       </h3>
-      <p style="font-family: 'Montserrat', sans-serif; font-size: 18px; color: #6B5B47; margin-bottom: 10px;">
-        Thank you for your RSVP! You will receive a confirmation email shortly.
-      </p>
+              <p style="font-family: 'Montserrat', sans-serif; font-size: 20px; color: #6B5B47; margin-bottom: 10px;">
+          Thank you for your RSVP! You will receive a confirmation email shortly.
+        </p>
+        <p style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #999; margin-bottom: 10px; font-style: italic;">
+          Please check your spam folder if you don't see it!
+        </p>
       <p style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #4A4A4A;">
         We look forward to celebrating with you!
       </p>
@@ -366,6 +370,7 @@
                 </div>
                 <div class="modal-body">
                     <p>Thank you for your RSVP! You will receive a confirmation email shortly.</p>
+                    <p>Please check your spam folder if you don't see it!!!</p>
                     <p>We look forward to celebrating with you!</p>
                 </div>
                 <div class="modal-footer">
@@ -475,10 +480,18 @@
                 <i class="fas fa-chevron-down"></i>
             </div>
             <div class="faq-answer">
-                <p>Please arrive at 2:00 PM. This is the earliest time you can check in, though you're welcome to arrive slightly earlier. The welcome toast begins at 2:30 PM.</p>
+                <p>Check-in opens from 2:00 PM. Once you're settled, please join us downstairs for a welcome toast — it's our way to kick off the celebrations together!</p>
             </div>
         </div>
-        
+        <div class="faq-item">
+          <div class="faq-question" onclick="toggleFAQ(this)">
+              <h3>Do we need to get ready before arriving?</h3>
+              <i class="fas fa-chevron-down"></i>
+          </div>
+          <div class="faq-answer">
+              <p>Yes please - we'd love everyone to arrive dressed up and ready for the festivities. That way, we can go straight into enjoying ourselves without too much rushing around.</p>
+          </div>
+      </div>        
         <div class="faq-item">
             <div class="faq-question" onclick="toggleFAQ(this)">
                 <h3>Is there parking available?</h3>
@@ -488,6 +501,8 @@
                 <p>Yes, complimentary parking is available on the grounds of Hedsor House. Please follow the signs upon arrival.</p>
             </div>
         </div>
+        
+
         
 
         
