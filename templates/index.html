@@ -520,6 +520,20 @@
                 <em>Most recommended way: cab or by car, but if you're arriving via public transport, please get in touch and we will arrange pick up from Taplow.</em></p>
             </div>
         </div>
+        
+        <div class="faq-item">
+            <div class="faq-question" onclick="toggleFAQ(this)">
+                <h3>Do I need a visa to visit the UK?</h3>
+                <i class="fas fa-chevron-down"></i>
+            </div>
+            <div class="faq-answer">
+                <p><strong>For Malaysian and Singaporean citizens:</strong><br>
+                Apply for <a href="https://www.gov.uk/guidance/electronic-travel-authorisation-eta?utm_source=chatgpt.com" target="_blank" style="color: #666; text-decoration: underline; font-weight: bold; font-style: italic;">UK ETA</a> online before your trip<br><br>
+                <strong>For other nationalities:</strong><br>
+                You may need to apply for a <a href="https://www.gov.uk/check-uk-visa?utm_source=chatgpt.com" target="_blank" style="color: #666; text-decoration: underline; font-weight: bold; font-style: italic;">UK Standard Visitor Visa</a> in advance. Check your requirements on the UK Government website.<br><br>
+                <em>We recommend applying early to avoid any last-minute stress!</em></p>
+            </div>
+        </div>
     </div>
 </section>
 
@@ -528,6 +542,7 @@ function toggleFAQ(element) {
     const answer = element.nextElementSibling;
     const icon = element.querySelector('.fa-chevron-down');
     
+    // Simple display toggle
     if (answer.style.display === 'none' || answer.style.display === '') {
         answer.style.display = 'block';
         icon.style.transform = 'rotate(180deg)';

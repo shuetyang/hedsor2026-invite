@@ -296,7 +296,7 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
                     Dress Code
                   </div>
                   <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
-                    Black tie for men; pastel long dresses for daytime for women (no white/cream); optional darker looks in the evening.
+                    Black tie for men; pastel long dresses for daytime for women (no white/cream) + optional darker looks in the evening.
                   </div>
                 </td>
               </tr>
