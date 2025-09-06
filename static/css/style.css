@@ -1249,7 +1249,8 @@ section {
 
 /* On the Day Section */
 .on-the-day-section {
-    padding: 5rem 2rem;
+    padding: 0 2rem 5rem 2rem !important;
+    margin-top: 0 !important;
 }
 
 .schedule-image-container {

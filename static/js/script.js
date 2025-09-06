@@ -356,15 +356,15 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
     
-    // Parallax effect for hero section
-    const heroSection = document.querySelector('.hero-section');
-    if (heroSection) {
-        window.addEventListener('scroll', function() {
-            const scrolled = window.pageYOffset;
-            const rate = scrolled * -0.5;
-            heroSection.style.transform = `translateY(${rate}px)`;
-        });
-    }
+    // Parallax effect for hero section - DISABLED to prevent gap
+    // const heroSection = document.querySelector('.hero-section');
+    // if (heroSection) {
+    //     window.addEventListener('scroll', function() {
+    //         const scrolled = window.pageYOffset;
+    //         const rate = scrolled * -0.5;
+    //         heroSection.style.transform = `translateY(${rate}px)`;
+    //     });
+    // }
     
     // Countdown timer for Crystal & Yang's wedding (May 12, 2026 at 2 PM)
     const weddingDate = new Date('2026-05-12T14:00:00');
