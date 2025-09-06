@@ -145,12 +145,18 @@ def submit_rsvp():
         
         # Send confirmation email
         email_sent = False
+        admin_email_sent = False
         email_error = None
         try:
             if app_config.BREVO_API_KEY:
                 send_confirmation_email(email, name, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch)
                 email_sent = True
                 print(f"Confirmation email sent successfully to {email}")
+                
+                # Send admin notification
+                send_admin_notification(name, email, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message)
+                admin_email_sent = True
+                print(f"Admin notification sent successfully")
             else:
                 print("Warning: BREVO_API_KEY not configured. Email not sent.")
                 email_error = "Email service not configured"
@@ -387,6 +393,170 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
         
     except Exception as e:
         print(f"Error sending email to {email}: {e}")
+        raise e
+
+def send_admin_notification(name, guest_email, guest_names, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message):
+    """Send admin notification email when RSVP is submitted"""
+    try:
+        import requests
+        
+        # Validate email configuration
+        api_key = app_config.BREVO_API_KEY
+        if not api_key:
+            raise ValueError("Brevo API key not configured")
+        
+        if not app_config.FROM_EMAIL:
+            raise ValueError("FROM_EMAIL not configured")
+        
+        # Format guest names
+        guest_names_text = ", ".join(guest_names) if len(guest_names) > 1 else guest_names[0]
+        guest_count = len(guest_names)
+        
+        # Email content
+        subject = f"New RSVP Submission - {name}"
+        html_content = f"""
+<table role="presentation" cellpadding="0" cellspacing="0" border="0" width="100%" style="background:#f8f9fa;padding:32px 0;">
+  <tr>
+    <td align="center">
+      <table role="presentation" cellpadding="0" cellspacing="0" border="0" width="600" style="max-width:600px;background:#ffffff;border-radius:14px;border:1px solid #e9e4da;box-shadow:0 1px 6px rgba(0,0,0,0.04);">
+        <tr>
+          <td style="padding:32px 36px 16px 36px;border-bottom:1px solid #efeae0;">
+            <div style="font-family: 'Didot', 'Bodoni MT', Georgia, 'Times New Roman', serif; font-size:28px; line-height:1.2; color:#2b2b2b; text-align:center; letter-spacing:0.5px;">
+              New RSVP Submission
+            </div>
+            <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; letter-spacing:2px; text-transform:uppercase; color:#8a7e6a; text-align:center; margin-top:6px;">
+              Crystal &amp; Yang Wedding
+            </div>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:24px 36px 0 36px;">
+            <p style="margin:0 0 18px 0; font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b;">
+              You have received a new RSVP submission:
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 36px 0 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f3;border:1px solid #efeae0;border-radius:10px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Guest Details
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    <div><strong>Primary Contact</strong>: {name}</div>
+                    <div><strong>Email</strong>: {guest_email}</div>
+                    <div><strong>Guest Count</strong>: {guest_count}</div>
+                    <div><strong>All Guests</strong>: {guest_names_text}</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:20px 36px 0 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f3;border:1px solid #efeae0;border-radius:10px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Event Attendance
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    <div><strong>Welcome Lunch (May 10)</strong>: {welcome_lunch.replace('_', ' ').title()}</div>
+                    <div><strong>Wedding Day (May 12)</strong>: {wedding_attendance.replace('_', ' ').title()}</div>
+                    <div><strong>Accommodation</strong>: {accommodation.title()}</div>
+                    <div><strong>Farewell Lunch (May 13)</strong>: {farewell_lunch.replace('_', ' ').title()}</div>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>"""
+
+        if message and message.strip():
+            html_content += f"""
+        <tr>
+          <td style="padding:20px 36px 0 36px;">
+            <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="background:#f9f7f3;border:1px solid #efeae0;border-radius:10px;">
+              <tr>
+                <td style="padding:16px 18px;">
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:12px; color:#8a7e6a; letter-spacing:1.5px; text-transform:uppercase; margin-bottom:6px;">
+                    Guest Message
+                  </div>
+                  <div style="font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b; line-height:1.6;">
+                    "{message}"
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>"""
+
+        html_content += """
+        <tr>
+          <td style="padding:22px 36px 28px 36px;">
+            <div style="height:1px;background:#efeae0;margin:10px 0 18px 0;"></div>
+            <p style="margin:0; font-family: Arial, Helvetica, sans-serif; font-size:16px; color:#2b2b2b;">
+              View all RSVPs in your 
+              <a href="https://crystal-yang-wedding.up.railway.app/admin" target="_blank" style="color:#b8a16a; font-weight:bold; text-decoration:none;">
+                admin dashboard
+              </a>
+            </p>
+          </td>
+        </tr>
+
+        <tr>
+          <td style="padding:0 36px 30px 36px; text-align:center;">
+            <div style="font-family: Arial, Helvetica, sans-serif; color:#8a7e6a; font-size:13px;">Wedding Website Admin</div>
+            <div style="font-family: 'Didot','Bodoni MT',Georgia,'Times New Roman',serif; font-size:18px; color:#2b2b2b; margin-top:2px;">
+              Crystal &amp; Yang
+            </div>
+          </td>
+        </tr>
+      </table>
+    </td>
+  </tr>
+</table>
+"""
+        
+        # Send email using Brevo API
+        url = "https://api.brevo.com/v3/smtp/email"
+        headers = {
+            "accept": "application/json",
+            "content-type": "application/json",
+            "api-key": api_key
+        }
+        
+        payload = {
+            "sender": {
+                "name": "Wedding Website",
+                "email": app_config.FROM_EMAIL
+            },
+            "to": [
+                {
+                    "email": "shuetyang@gmail.com",
+                    "name": "Crystal & Yang"
+                }
+            ],
+            "subject": subject,
+            "htmlContent": html_content
+        }
+        
+        response = requests.post(url, headers=headers, json=payload)
+        
+        if response.status_code == 201:
+            print(f"Admin notification sent successfully")
+            return response.json()
+        else:
+            raise Exception(f"Brevo API error: {response.status_code} - {response.text}")
+        
+    except Exception as e:
+        print(f"Error sending admin notification: {e}")
         raise e
 
 # Create database tables
