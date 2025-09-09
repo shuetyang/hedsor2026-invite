@@ -35,8 +35,8 @@ class Guest(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(120), nullable=False)
-    guest_count = db.Column(db.Integer, default=1)
-    guest_names = db.Column(db.Text)  # JSON string of guest names
+    has_partner = db.Column(db.String(10), nullable=False)  # 'yes', 'no'
+    partner_name = db.Column(db.String(100))  # Only if has_partner is 'yes'
     message = db.Column(db.Text)
     created_at = db.Column(db.DateTime, default=datetime.utcnow)
     
@@ -81,12 +81,9 @@ def submit_rsvp():
         # Primary contact information
         name = request.form.get('name')
         email = request.form.get('email')
-        guest_count = int(request.form.get('guest_count', 1))
+        has_partner = request.form.get('has_partner')
+        partner_name = request.form.get('partner_name', '')
         message = request.form.get('message', '')
-        
-        # Guest names (array from form)
-        guest_names_list = request.form.getlist('guest_names[]')
-        guest_names_json = json.dumps(guest_names_list)
         
         # Event attendance
         welcome_lunch = request.form.get('welcome_lunch')
@@ -105,7 +102,7 @@ def submit_rsvp():
         required_fields = {
             'name': name,
             'email': email,
-            'guest_count': guest_count,
+            'has_partner': has_partner,
             'welcome_lunch': welcome_lunch,
             'wedding_attendance': wedding_attendance,
             'accommodation': accommodation,
@@ -119,20 +116,19 @@ def submit_rsvp():
                 'message': f'Please fill in all required fields: {", ".join(missing_fields)}'
             }), 400
         
-        # Validate guest names match guest count
-        # Note: guest_names_list now includes the primary contact name
-        if len(guest_names_list) != guest_count:
+        # Validate partner name if has_partner is 'yes'
+        if has_partner == 'yes' and not partner_name.strip():
             return jsonify({
                 'success': False,
-                'message': f'Please provide names for all {guest_count} guest(s). You provided {len(guest_names_list)} names.'
+                'message': 'Please provide your partner\'s name.'
             }), 400
         
         # Create new guest
         guest = Guest(
             name=name,
             email=email,
-            guest_count=guest_count,
-            guest_names=guest_names_json,
+            has_partner=has_partner,
+            partner_name=partner_name if has_partner == 'yes' else None,
             message=message,
             welcome_lunch=welcome_lunch,
             wedding_attendance=wedding_attendance,
@@ -149,12 +145,12 @@ def submit_rsvp():
         email_error = None
         try:
             if app_config.BREVO_API_KEY:
-                send_confirmation_email(email, name, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch)
+                send_confirmation_email(email, name, has_partner, partner_name, welcome_lunch, wedding_attendance, accommodation, farewell_lunch)
                 email_sent = True
                 print(f"Confirmation email sent successfully to {email}")
                 
                 # Send admin notification
-                send_admin_notification(name, email, guest_names_list, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message)
+                send_admin_notification(name, email, has_partner, partner_name, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message)
                 admin_email_sent = True
                 print(f"Admin notification sent successfully")
             else:
@@ -190,17 +186,17 @@ def admin():
     
     # Calculate statistics
     total_primary_contacts = len(guests)
-    total_guests = sum(g.guest_count for g in guests)
+    total_guests = sum(2 if g.has_partner == 'yes' else 1 for g in guests)
     
     # Wedding attendance stats (based on total guest count)
-    wedding_attending = sum(g.guest_count for g in guests if g.wedding_attendance == 'attending')
+    wedding_attending = sum(2 if g.has_partner == 'yes' else 1 for g in guests if g.wedding_attendance == 'attending')
     
     # Event attendance stats (based on total guest count)
-    welcome_lunch_attending = sum(g.guest_count for g in guests if g.welcome_lunch == 'attending')
-    farewell_lunch_attending = sum(g.guest_count for g in guests if g.farewell_lunch == 'attending')
+    welcome_lunch_attending = sum(2 if g.has_partner == 'yes' else 1 for g in guests if g.welcome_lunch == 'attending')
+    farewell_lunch_attending = sum(2 if g.has_partner == 'yes' else 1 for g in guests if g.farewell_lunch == 'attending')
     
     # Accommodation stats (based on total guest count)
-    accommodation_needed = sum(g.guest_count for g in guests if g.accommodation == 'yes')
+    accommodation_needed = sum(2 if g.has_partner == 'yes' else 1 for g in guests if g.accommodation == 'yes')
     
     stats = {
         'total_primary_contacts': total_primary_contacts,
@@ -213,7 +209,7 @@ def admin():
     
     return render_template('admin.html', guests=guests, stats=stats)
 
-def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_attendance, accommodation, farewell_lunch):
+def send_confirmation_email(email, name, has_partner, partner_name, welcome_lunch, wedding_attendance, accommodation, farewell_lunch):
     """Send confirmation email using Brevo"""
     try:
         import requests
@@ -231,7 +227,10 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
             raise ValueError("Invalid email address")
         
         # Format guest names
-        guest_names_text = ", ".join(guest_names) if len(guest_names) > 1 else guest_names[0]
+        if has_partner == 'yes' and partner_name:
+            guest_names_text = f"{name} and {partner_name}"
+        else:
+            guest_names_text = name
         
         # Email content
         subject = "Crystal & Yang's Wedding - RSVP Confirmation"
@@ -395,7 +394,7 @@ def send_confirmation_email(email, name, guest_names, welcome_lunch, wedding_att
         print(f"Error sending email to {email}: {e}")
         raise e
 
-def send_admin_notification(name, guest_email, guest_names, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message):
+def send_admin_notification(name, guest_email, has_partner, partner_name, welcome_lunch, wedding_attendance, accommodation, farewell_lunch, message):
     """Send admin notification email when RSVP is submitted"""
     try:
         import requests
@@ -409,8 +408,12 @@ def send_admin_notification(name, guest_email, guest_names, welcome_lunch, weddi
             raise ValueError("FROM_EMAIL not configured")
         
         # Format guest names
-        guest_names_text = ", ".join(guest_names) if len(guest_names) > 1 else guest_names[0]
-        guest_count = len(guest_names)
+        if has_partner == 'yes' and partner_name:
+            guest_names_text = f"{name} and {partner_name}"
+            guest_count = 2
+        else:
+            guest_names_text = name
+            guest_count = 1
         
         # Email content
         subject = f"New RSVP Submission - {name}"

@@ -7,6 +7,113 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script>
+        function copyTableToClipboard() {
+            const table = document.getElementById('guests-table');
+            const rows = table.querySelectorAll('tr');
+            let csvContent = '';
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('th, td');
+                const rowData = [];
+                cells.forEach(cell => {
+                    // Clean up the cell text and remove status badges
+                    let text = cell.textContent.trim();
+                    if (text.includes('Attending') || text.includes('Not Attending')) {
+                        text = text.includes('Attending') ? 'Attending' : 'Not Attending';
+                    }
+                    rowData.push(text);
+                });
+                csvContent += rowData.join('\t') + '\n';
+            });
+            
+            navigator.clipboard.writeText(csvContent).then(() => {
+                showNotification('Table copied to clipboard!', 'success');
+            }).catch(() => {
+                showNotification('Failed to copy to clipboard', 'error');
+            });
+        }
+        
+        function downloadCSV() {
+            const table = document.getElementById('guests-table');
+            const rows = table.querySelectorAll('tr');
+            let csvContent = '';
+            
+            rows.forEach(row => {
+                const cells = row.querySelectorAll('th, td');
+                const rowData = [];
+                cells.forEach(cell => {
+                    let text = cell.textContent.trim();
+                    if (text.includes('Attending') || text.includes('Not Attending')) {
+                        text = text.includes('Attending') ? 'Attending' : 'Not Attending';
+                    }
+                    // Escape commas and quotes for CSV
+                    if (text.includes(',') || text.includes('"')) {
+                        text = '"' + text.replace(/"/g, '""') + '"';
+                    }
+                    rowData.push(text);
+                });
+                csvContent += rowData.join(',') + '\n';
+            });
+            
+            const blob = new Blob([csvContent], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'wedding_rsvp_responses.csv';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            window.URL.revokeObjectURL(url);
+            
+            showNotification('CSV downloaded successfully!', 'success');
+        }
+        
+        function showNotification(message, type) {
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                padding: 15px 20px;
+                border-radius: 5px;
+                color: white;
+                font-weight: 500;
+                z-index: 10000;
+                animation: slideIn 0.3s ease;
+            `;
+            
+            if (type === 'success') {
+                notification.style.backgroundColor = '#28a745';
+            } else {
+                notification.style.backgroundColor = '#dc3545';
+            }
+            
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('copy-table-btn').addEventListener('click', copyTableToClipboard);
+            document.getElementById('download-csv-btn').addEventListener('click', downloadCSV);
+        });
+    </script>
+    <style>
+        @keyframes slideIn {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+        
+        .export-btn:hover {
+            opacity: 0.9;
+            transform: translateY(-1px);
+            transition: all 0.2s ease;
+        }
+    </style>
     <style>
         body {
             background: #f8f9fa;
@@ -187,14 +294,22 @@
         <div class="guest-list">
             <h3>Guest Responses</h3>
             {% if guests %}
+                <div class="export-controls" style="margin-bottom: 20px;">
+                    <button id="copy-table-btn" class="export-btn" style="margin-right: 10px; padding: 10px 15px; background: #1A2E35; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        📋 Copy to Clipboard
+                    </button>
+                    <button id="download-csv-btn" class="export-btn" style="padding: 10px 15px; background: #6B5B47; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                        📥 Download CSV
+                    </button>
+                </div>
                 <div class="table-responsive">
-                    <table class="admin-table">
+                    <table class="admin-table" id="guests-table">
                         <thead>
                             <tr>
                                 <th>Primary Contact</th>
                                 <th>Email</th>
                                 <th>Guest Count</th>
-                                <th>Guest Names</th>
+                                <th>Partner Name</th>
                                 <th>Wedding</th>
                                 <th>Welcome Lunch</th>
                                 <th>Farewell Lunch</th>
@@ -208,15 +323,18 @@
                             <tr>
                                 <td>{{ guest.name }}</td>
                                 <td>{{ guest.email }}</td>
-                                <td>{{ guest.guest_count }}</td>
                                 <td>
-                                    {% if guest.guest_names %}
-                                        {% set names = guest.guest_names|from_json %}
-                                        {% for name in names %}
-                                            <div>{{ name }}</div>
-                                        {% endfor %}
+                                    {% if guest.has_partner == 'yes' %}
+                                        2
                                     {% else %}
-                                        {{ guest.name }}
+                                        1
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    {% if guest.has_partner == 'yes' and guest.partner_name %}
+                                        {{ guest.partner_name }}
+                                    {% else %}
+                                        N/A
                                     {% endif %}
                                 </td>
                                 <td>

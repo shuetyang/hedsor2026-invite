@@ -195,40 +195,90 @@
            style="max-width: 1200px; width: 100%; height: auto; border-radius: 15px; box-shadow: 0 4px 20px rgba(0,0,0,0.15);">
     </div>
 
+    <style>
+      /* Input focus effects */
+      input[type="text"]:focus, input[type="email"]:focus {
+        border-color: #6B5B47 !important;
+        outline: none;
+        box-shadow: 0 0 0 3px rgba(107, 91, 71, 0.1);
+      }
+      
+      /* Mobile responsive adjustments */
+      @media (max-width: 768px) {
+        .toggle-container {
+          flex-direction: column;
+          gap: 10px;
+        }
+      }
+      
+      /* Toggle hover effects */
+      .toggle-slider:hover {
+        box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+      }
+    </style>
+    
     <form id="rsvp-form" method="POST" action="{{ url_for('submit_rsvp') }}" style="background: #FFFFFF; padding: 30px; border-radius: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); max-width: 1200px; margin: 0 auto;">
-      <!-- Step 1: Guest Count and Names -->
+      <!-- Step 1: Guest Information -->
       <div class="form-step" id="step-1">
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-          How many guests in your party?
+          Your Name
         </label>
-        <select id="guest-count" name="guest_count" required style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
-          <option value="" disabled selected>Select number of guests</option>
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-        </select>
+        <input type="text" name="name" placeholder="Your Name" required
+               style="width: 100%; padding: 14px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 2px solid #E5E5E5; border-radius: 10px; margin-bottom: 20px; transition: border-color 0.3s ease; box-sizing: border-box;">
 
         <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-          Primary Contact Name
+          Email Address
         </label>
-        <input type="text" name="name" placeholder="e.g., John Doe" required
-               style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
+        <input type="email" name="email" placeholder="your.email@example.com" required
+               style="width: 100%; padding: 14px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 2px solid #E5E5E5; border-radius: 10px; margin-bottom: 25px; transition: border-color 0.3s ease; box-sizing: border-box;">
 
-        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-          Additional Guest Name(s)
-        </label>
-        <div id="name-fields">
-          <p style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #6B5B47; margin-bottom: 10px; font-style: italic;">
-            Primary contact name will be automatically included. Add additional guests below.
-          </p>
+        <div style="text-align: center; margin-bottom: 20px; padding: 15px 0;">
+          <span style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #4A4A4A; font-weight: 400; display: block; margin-bottom: 15px;">
+            Will your significant other be joining you?
+          </span>
+          
+          <!-- Modern Toggle Switch -->
+          <div style="display: flex; align-items: center; gap: 12px; justify-content: center;">
+            <span style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #888; font-weight: 400;">No</span>
+            <div class="toggle-container" style="position: relative; display: inline-block;">
+              <input type="checkbox" id="partner-toggle" name="has_partner_toggle" style="opacity: 0; width: 0; height: 0;">
+              <label for="partner-toggle" class="toggle-slider" style="
+                display: block;
+                width: 60px;
+                height: 30px;
+                background: #ccc;
+                border-radius: 30px;
+                position: relative;
+                cursor: pointer;
+                transition: background 0.3s ease;
+              ">
+                <span class="toggle-button" style="
+                  position: absolute;
+                  top: 3px;
+                  left: 3px;
+                  width: 24px;
+                  height: 24px;
+                  background: white;
+                  border-radius: 50%;
+                  transition: transform 0.3s ease;
+                  box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+                "></span>
+              </label>
+            </div>
+            <span style="font-family: 'Montserrat', sans-serif; font-size: 14px; color: #888; font-weight: 400;">Yes</span>
+          </div>
         </div>
 
-        <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
-          Email for Confirmation
-        </label>
-        <input type="email" name="email" placeholder="Your email" required
-               style="width: 100%; padding: 12px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 20px;">
+        <div id="partner-name-field" style="display: none; opacity: 0; transition: opacity 0.3s ease;">
+          <label style="font-family: 'Montserrat', sans-serif; font-size: 16px; color: #1A2E35; display: block; margin-bottom: 10px;">
+            Partner's Name
+          </label>
+          <input type="text" name="partner_name" placeholder="Partner's Name"
+                 style="width: 100%; padding: 14px; font-family: 'Montserrat', sans-serif; font-size: 16px; border: 2px solid #E5E5E5; border-radius: 10px; margin-bottom: 20px; transition: border-color 0.3s ease; box-sizing: border-box;">
+        </div>
+        
+        <!-- Hidden input for form submission -->
+        <input type="hidden" name="has_partner" id="has_partner_hidden" value="no">
       </div>
 
       <!-- Step 2: Event Attendance -->
@@ -408,7 +458,9 @@
         
         <div class="venue-content">
             <div class="venue-image">
-                <img src="{{ url_for('static', filename='images/venue.jpg') }}" alt="Hedsor House" class="venue-photo">
+                <a href="https://www.hedsor.com" target="_blank" rel="noopener noreferrer">
+                    <img src="{{ url_for('static', filename='images/venue.jpg') }}" alt="Hedsor House" class="venue-photo">
+                </a>
             </div>
             
             <div class="venue-map">

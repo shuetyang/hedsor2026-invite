@@ -90,9 +90,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const nextBtn = document.getElementById('next-btn');
     const submitBtn = document.getElementById('submit-btn');
     const confirmation = document.getElementById('confirmation');
-    const guestCount = document.getElementById('guest-count');
-    const nameFields = document.getElementById('name-fields');
-    const largeGroupNote = document.getElementById('large-group-note');
+    // Remove old radio button reference
+    const partnerNameField = document.getElementById('partner-name-field');
     let currentStep = 0;
 
     if (form && steps.length > 0) {
@@ -103,29 +102,38 @@ document.addEventListener('DOMContentLoaded', function() {
             console.log('Accommodation toggle set to checked:', accommodationToggle.checked);
         }
         
-        // Update name fields based on guest count
-        guestCount.addEventListener('change', () => {
-            const count = guestCount.value;
-            nameFields.innerHTML = ''; // Clear existing fields
-
-            // Add explanatory text
-            const explanation = document.createElement('p');
-            explanation.style.cssText = 'font-family: "Montserrat", sans-serif; font-size: 14px; color: #6B5B47; margin-bottom: 10px; font-style: italic;';
-            explanation.textContent = 'Primary contact name will be automatically included. Add additional guests below.';
-            nameFields.appendChild(explanation);
-
-            const numFields = parseInt(count) || 1;
-            // Only create fields for additional guests (skip the first one as it's the primary contact)
-            for (let i = 1; i < numFields; i++) {
-                const input = document.createElement('input');
-                input.type = 'text';
-                input.name = 'guest_names[]';
-                input.placeholder = `Additional guest ${i} name`;
-                input.required = true;
-                input.style.cssText = 'width: 100%; padding: 12px; font-family: "Montserrat", sans-serif; font-size: 16px; border: 1px solid #D3D3D3; border-radius: 8px; margin-bottom: 10px;';
-                nameFields.appendChild(input);
-            }
-        });
+        // Handle partner toggle switch
+        const partnerToggle = document.getElementById('partner-toggle');
+        const partnerHiddenInput = document.getElementById('has_partner_hidden');
+        const toggleSlider = document.querySelector('.toggle-slider');
+        const toggleButton = document.querySelector('.toggle-button');
+        
+        if (partnerToggle && partnerNameField) {
+            partnerToggle.addEventListener('change', () => {
+                if (partnerToggle.checked) {
+                    // Toggle is ON (Yes)
+                    partnerHiddenInput.value = 'yes';
+                    partnerNameField.style.display = 'block';
+                    partnerNameField.style.opacity = '1';
+                    partnerNameField.querySelector('input').required = true;
+                    
+                    // Update toggle appearance
+                    toggleSlider.style.background = '#6B5B47';
+                    toggleButton.style.transform = 'translateX(30px)';
+                } else {
+                    // Toggle is OFF (No)
+                    partnerHiddenInput.value = 'no';
+                    partnerNameField.style.display = 'none';
+                    partnerNameField.style.opacity = '0';
+                    partnerNameField.querySelector('input').required = false;
+                    partnerNameField.querySelector('input').value = '';
+                    
+                    // Update toggle appearance
+                    toggleSlider.style.background = '#ccc';
+                    toggleButton.style.transform = 'translateX(0px)';
+                }
+            });
+        }
 
         // Show current step
         function showStep(step) {
