@@ -7,6 +7,29 @@
     <meta http-equiv="Pragma" content="no-cache">
     <meta http-equiv="Expires" content="0">
     <title>{% block title %}Crystal & Yang's Wedding{% endblock %}</title>
+    
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ request.url }}">
+    <meta property="og:title" content="{% block og_title %}Crystal & Yang's Wedding - May 12, 2026{% endblock %}">
+    <meta property="og:description" content="{% block og_description %}Join us for our wedding celebration at Hedsor House, Buckinghamshire on Tuesday, May 12, 2026. RSVP and find all the details you need for our special day.{% endblock %}">
+    <meta property="og:image" content="{{ url_for('static', filename='images/IMG_1221.JPG', _external=True) }}">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:site_name" content="Crystal & Yang's Wedding">
+    
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image">
+    <meta property="twitter:url" content="{{ request.url }}">
+    <meta property="twitter:title" content="{% block twitter_title %}Crystal & Yang's Wedding - May 12, 2026{% endblock %}">
+    <meta property="twitter:description" content="{% block twitter_description %}Join us for our wedding celebration at Hedsor House, Buckinghamshire on Tuesday, May 12, 2026. RSVP and find all the details you need for our special day.{% endblock %}">
+    <meta property="twitter:image" content="{{ url_for('static', filename='images/IMG_1221.JPG', _external=True) }}">
+    
+    <!-- Additional meta tags for better SEO -->
+    <meta name="description" content="Crystal & Yang's wedding invitation and RSVP website. Join us on May 12, 2026 at Hedsor House, Buckinghamshire for our special celebration.">
+    <meta name="keywords" content="Crystal Yang wedding, Hedsor House wedding, May 2026 wedding, wedding invitation, RSVP">
+    <meta name="author" content="Crystal & Yang">
+    
     <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff69b4'/><text x='50' y='65' text-anchor='middle' font-size='40' fill='white'>💕</text></svg>">
     <link rel="shortcut icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff69b4'/><text x='50' y='65' text-anchor='middle' font-size='40' fill='white'>💕</text></svg>">
     <link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><circle cx='50' cy='50' r='45' fill='%23ff69b4'/><text x='50' y='65' text-anchor='middle' font-size='40' fill='white'>💕</text></svg>">

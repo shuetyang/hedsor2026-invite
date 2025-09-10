@@ -148,8 +148,73 @@ document.addEventListener('DOMContentLoaded', function() {
         // Initial step
         showStep(currentStep);
 
+        // Validation function for step 1
+        function validateStep1() {
+            const nameInput = document.querySelector('input[name="name"]');
+            const emailInput = document.querySelector('input[name="email"]');
+            const partnerToggle = document.getElementById('partner-toggle');
+            const partnerNameInput = document.querySelector('input[name="partner_name"]');
+            
+            let isValid = true;
+            let errorMessage = '';
+            
+            // Validate name
+            if (!nameInput.value.trim()) {
+                isValid = false;
+                nameInput.style.borderColor = '#dc3545';
+                nameInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                errorMessage = 'Please enter your name.';
+            } else {
+                nameInput.style.borderColor = '#E5E5E5';
+                nameInput.style.boxShadow = 'none';
+            }
+            
+            // Validate email
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailInput.value.trim()) {
+                isValid = false;
+                emailInput.style.borderColor = '#dc3545';
+                emailInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                if (!errorMessage) errorMessage = 'Please enter your email address.';
+            } else if (!emailRegex.test(emailInput.value.trim())) {
+                isValid = false;
+                emailInput.style.borderColor = '#dc3545';
+                emailInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                if (!errorMessage) errorMessage = 'Please enter a valid email address.';
+            } else {
+                emailInput.style.borderColor = '#E5E5E5';
+                emailInput.style.boxShadow = 'none';
+            }
+            
+            // Validate partner name if partner toggle is checked
+            if (partnerToggle && partnerToggle.checked && partnerNameInput) {
+                if (!partnerNameInput.value.trim()) {
+                    isValid = false;
+                    partnerNameInput.style.borderColor = '#dc3545';
+                    partnerNameInput.style.boxShadow = '0 0 0 3px rgba(220, 53, 69, 0.1)';
+                    if (!errorMessage) errorMessage = 'Please enter your partner\'s name.';
+                } else {
+                    partnerNameInput.style.borderColor = '#E5E5E5';
+                    partnerNameInput.style.boxShadow = 'none';
+                }
+            }
+            
+            if (!isValid && errorMessage) {
+                showNotification(errorMessage, 'error');
+            }
+            
+            return isValid;
+        }
+
         // Next button
         nextBtn.addEventListener('click', () => {
+            if (currentStep === 0) {
+                // Validate step 1 before proceeding
+                if (!validateStep1()) {
+                    return; // Don't proceed if validation fails
+                }
+            }
+            
             if (currentStep < steps.length - 1) {
                 currentStep++;
                 showStep(currentStep);
